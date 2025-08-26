@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HandSpeak - Learn Sign Language</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon"><i class="fa-solid fa-hand"></i></div>
+                <span class="logo-text">HandSpeak</span>
+            </div>
+            <nav class="nav">
+                <a href="/" class="nav-link">Home</a>
+                <a href="#" class="nav-link">About</a>
+                <a href="/learn" class="nav-link active">Learn</a>
+                <a href="#" class="nav-link">How It Works</a>
+                <a href="#" class="nav-link">Contact</a>
+            </nav>
+            <div class="user-profile">
+                <div class="profile-icon"><i class="fa-solid fa-user"></i></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">Learn Sign Language<br>Through Play</h1>
+                <p class="hero-subtitle">Master sign language with fun, interactive games and challenges designed to make learning engaging and effective.</p>
+                <div class="hero-buttons">
+                    <button id="startLearningBtn" class="btn btn-primary">Start Learning</button>
+                    <button id="viewProgressBtn" class="btn btn-secondary">View Progress</button>
+                </div>
+            </div>
+            <div class="hero-illustration">
+                <img src="{{ url_for('static', filename='img/person-signing.svg') }}" alt="Person using sign language" class="illustration-img">
+            </div>
+        </div>
+    </section>
+
+    <!-- Learning Content Section -->
+    <section class="main-content">
+        <div class="learning-dashboard">
+            <h2 class="section-title">Your Learning Journey</h2>
+            <div class="progress-overview">
+                <div class="progress-card">
+                    <div class="progress-icon"><i class="fa-solid fa-star"></i></div>
+                    <div class="progress-stats">
+                        <h3>Level 3</h3>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 65%;"></div>
+                        </div>
+                        <p>65% to Level 4</p>
+                    </div>
+                </div>
+                <div class="progress-card">
+                    <div class="progress-icon"><i class="fa-solid fa-trophy"></i></div>
+                    <div class="progress-stats">
+                        <h3>12 Signs Mastered</h3>
+                        <p>Keep practicing to unlock more!</p>
+                    </div>
+                </div>
+                <div class="progress-card">
+                    <div class="progress-icon"><i class="fa-solid fa-fire"></i></div>
+                    <div class="progress-stats">
+                        <h3>3 Day Streak</h3>
+                        <p>Come back tomorrow to continue your streak!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="learning-modules">
+            <h2 class="section-title">Learning Modules</h2>
+            <div class="module-grid">
+                <div class="module-card">
+                    <div class="module-icon"><i class="fa-solid fa-handshake"></i></div>
+                    <h3>Greetings & Basics</h3>
+                    <p>Learn essential signs for everyday communication</p>
+                    <div class="module-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 80%;"></div>
+                        </div>
+                        <span>8/10 Completed</span>
+                    </div>
+                    <button class="btn btn-primary module-btn">Continue</button>
+                </div>
+                <div class="module-card">
+                    <div class="module-icon"><i class="fa-solid fa-users"></i></div>
+                    <h3>Family & Relationships</h3>
+                    <p>Signs for family members and relationships</p>
+                    <div class="module-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 40%;"></div>
+                        </div>
+                        <span>4/10 Completed</span>
+                    </div>
+                    <button class="btn btn-primary module-btn">Continue</button>
+                </div>
+                <div class="module-card">
+                    <div class="module-icon"><i class="fa-solid fa-utensils"></i></div>
+                    <h3>Food & Dining</h3>
+                    <p>Learn signs related to food and eating</p>
+                    <div class="module-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%;"></div>
+                        </div>
+                        <span>0/10 Completed</span>
+                    </div>
+                    <button class="btn btn-primary module-btn">Start</button>
+                </div>
+                <div class="module-card locked">
+                    <div class="module-icon"><i class="fa-solid fa-lock"></i></div>
+                    <h3>Questions & Conversations</h3>
+                    <p>Advanced signs for interactive conversations</p>
+                    <div class="module-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%;"></div>
+                        </div>
+                        <span>Locked</span>
+                    </div>
+                    <button class="btn btn-secondary module-btn">Unlock at Level 5</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="daily-challenge">
+            <h2 class="section-title">Daily Challenge</h2>
+            <div class="challenge-card">
+                <div class="challenge-header">
+                    <div class="challenge-icon"><i class="fa-solid fa-bolt"></i></div>
+                    <h3>Today's Challenge: Greetings Mastery</h3>
+                </div>
+                <p>Practice and perfect 5 different greeting signs in a row with high accuracy.</p>
+                <div class="challenge-rewards">
+                    <div class="reward">
+                        <div class="reward-icon"><i class="fa-solid fa-gem"></i></div>
+                        <span>50 Points</span>
+                    </div>
+                    <div class="reward">
+                        <div class="reward-icon"><i class="fa-solid fa-medal"></i></div>
+                        <span>Greetings Badge</span>
+                    </div>
+                </div>
+                <button class="btn btn-primary challenge-btn">Start Challenge</button>
+            </div>
+        </div>
+
+        <div class="practice-mode">
+            <h2 class="section-title">Practice Mode</h2>
+            <div class="practice-card">
+                <div class="practice-options">
+                    <button class="practice-option active">
+                        <div class="option-icon"><i class="fa-solid fa-gamepad"></i></div>
+                        <span>Sign Recognition Game</span>
+                    </button>
+                    <button class="practice-option">
+                        <div class="option-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                        <span>Flashcards</span>
+                    </button>
+                    <button class="practice-option">
+                        <div class="option-icon"><i class="fa-solid fa-comments"></i></div>
+                        <span>Conversation Practice</span>
+                    </button>
+                    <button class="practice-option">
+                        <div class="option-icon"><i class="fa-solid fa-ranking-star"></i></div>
+                        <span>Speed Challenge</span>
+                    </button>
+                </div>
+                <div class="practice-preview">
+                    <h3>Sign Recognition Game</h3>
+                    <p>Test your knowledge by recognizing signs shown on screen. Use your webcam to practice and get real-time feedback.</p>
+                    <button class="btn btn-primary">Start Practice</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Status Messages -->
+    <div id="statusMessage" class="status-message"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/learn.js') }}"></script>
+</body>
+</html>

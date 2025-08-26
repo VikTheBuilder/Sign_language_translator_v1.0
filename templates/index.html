@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HandSpeak - Sign Language Translator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon"><i class="fa-solid fa-hand"></i></div>
+                <span class="logo-text">HandSpeak</span>
+            </div>
+            <nav class="nav">
+                <a href="#" class="nav-link active">Home</a>
+                <a href="#" class="nav-link">About</a>
+                <a href="/learn" class="nav-link">Learn</a>
+                <a href="#" class="nav-link">How It Works</a>
+                <a href="#" class="nav-link">Contact</a>
+            </nav>
+            <div class="user-profile">
+                <div class="profile-icon"><i class="fa-solid fa-user"></i></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">Break Barriers.<br>Speak Through Signs.</h1>
+                <p class="hero-subtitle">Translate sign language into text and speech instantly — powered by AI & your webcam.</p>
+                <div class="hero-buttons">
+                    <button id="startBtn" class="btn btn-primary">Start Translating</button>
+                    <button class="btn btn-secondary">Learn More</button>
+                </div>
+            </div>
+            <div class="hero-illustration">
+                <img src="{{ url_for('static', filename='img/person-signing.svg') }}" alt="Person using sign language" class="illustration-img">
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Section -->
+    <section class="main-content">
+        <div class="content-grid">
+            <!-- Live Camera Feed Card -->
+            <div class="card">
+                <h2 class="card-title">Live Camera Feed</h2>
+                <div class="video-container">
+                    <img id="videoElement" alt="Camera Feed" style="display: none; width: 100%; height: 100%; object-fit: cover;">
+                    <div id="videoOverlay" class="video-overlay">
+                        <div class="camera-placeholder">
+                            <div class="camera-icon"><i class="fa-solid fa-camera"></i></div>
+                            <p>Camera not active</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-controls">
+                    <button class="control-btn" id="rewindBtn"><i class="fa-solid fa-backward"></i></button>
+                    <button class="control-btn" id="pauseBtn"><i class="fa-solid fa-pause"></i></button>
+                    <button class="control-btn" id="recordBtn"><i class="fa-solid fa-circle"></i></button>
+                </div>
+                <p class="instruction-text">Your signs will appear here.</p>
+            </div>
+
+            <!-- Translated Text Card -->
+            <div class="card">
+                <h2 class="card-title">Translated Text</h2>
+                <div class="text-display">
+                    <div id="translationText" class="translation-content">
+                        <div class="placeholder-text">Hello, how are you?</div>
+                    </div>
+                </div>
+                <div class="text-controls">
+                    <button class="control-btn" id="speakBtn"><i class="fa-solid fa-volume-high"></i></button>
+                    <button class="control-btn" id="clearBtn"><i class="fa-solid fa-trash"></i></button>
+                    <button class="control-btn" id="copyBtn"><i class="fa-solid fa-copy"></i></button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Chatbot Section -->
+        <div class="chatbot-section">
+            <div class="chatbot-container">
+                <div class="chatbot-header">
+                    <h2>HandSpeak Assistant</h2>
+                    <button id="minimizeChatBtn" class="minimize-btn"><i class="fa-solid fa-minus"></i></button>
+                </div>
+                <div class="chatbot-messages" id="chatMessages">
+                    <div class="message bot-message">
+                        <div class="message-avatar"><i class="fa-solid fa-robot"></i></div>
+                        <div class="message-content">Hi there! I'm your HandSpeak assistant. How can I help you with sign language today?</div>
+                    </div>
+                </div>
+                <div class="chatbot-input">
+                    <input type="text" id="chatInput" placeholder="Type your message here...">
+                    <button id="sendMessageBtn"><i class="fa-solid fa-paper-plane"></i></button>
+                </div>
+            </div>
+            <button id="openChatBtn" class="chat-toggle-btn"><i class="fa-solid fa-comments"></i></button>
+        </div>
+    </section>
+
+    <!-- Status Messages -->
+    <div id="statusMessage" class="status-message"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

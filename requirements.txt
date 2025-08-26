@@ -1,0 +1,7 @@
+opencv-python
+numpy
+flask
+flask-socketio
+python-socketio
+pillow 
+mediapipe
