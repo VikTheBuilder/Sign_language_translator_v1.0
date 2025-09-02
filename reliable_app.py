@@ -1,4 +1,4 @@
-from flask import Flask, render_template, Response, jsonify
+from flask import Flask, render_template, Response, jsonify, redirect, url_for, request, session
 from flask_socketio import SocketIO, emit
 import cv2
 import numpy as np
@@ -148,8 +148,47 @@ def generate_frames():
     release_camera()
 
 @app.route('/')
-def index():
-    """Main page."""
+def landing():
+    """Public marketing landing page."""
+    return render_template('landing.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    """Simple session-based login (demo only)."""
+    if request.method == 'POST':
+        email = request.form.get('email', '').strip()
+        password = request.form.get('password', '').strip()
+        # Demo authentication: accept any non-empty credentials
+        if email and password:
+            session['user_email'] = email
+            return redirect(url_for('app_home'))
+        return render_template('login.html', error='Please enter valid credentials.', mode='login')
+    return render_template('login.html', mode='login')
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    """Handle user registration."""
+    if request.method == 'POST':
+        username = request.form.get('username', '').strip()
+        email = request.form.get('email', '').strip()
+        password = request.form.get('password', '').strip()
+        # Demo registration: accept any non-empty credentials
+        if username and email and password:
+            session['user_email'] = email
+            return redirect(url_for('app_home'))
+        return render_template('login.html', error='Please fill in all fields.', mode='register')
+    return render_template('login.html', mode='register')
+
+@app.route('/logout')
+def logout():
+    session.pop('user_email', None)
+    return redirect(url_for('landing'))
+
+@app.route('/app')
+def app_home():
+    """Protected application page that renders the main translator UI."""
+    if not session.get('user_email'):
+        return redirect(url_for('login'))
     return render_template('index.html')
 
 @app.route('/start_camera')
@@ -221,7 +260,38 @@ def get_translator_info():
 @app.route('/learn')
 def learn():
     """Learning page with gamification."""
+    # Optional: require login for learn page
+    if not session.get('user_email'):
+        return redirect(url_for('login'))
     return render_template('learn.html')
+
+@app.route('/module/greetings')
+def module_greetings():
+    """Render the Greetings & Basics learning module page."""
+    if not session.get('user_email'):
+        return redirect(url_for('login'))
+    return render_template('module-greetings.html')
+
+@app.route('/module/family')
+def module_family():
+    # Check if user is logged in
+    if not session.get('user_email'):
+        return redirect(url_for('login'))
+    return render_template('module-family.html')
+
+@app.route('/module/food')
+def module_food():
+    """Render the Food & Dining learning module page."""
+    if not session.get('user_email'):
+        return redirect(url_for('login'))
+    return render_template('module-food.html')
+
+@app.route('/dashboard')
+def dashboard():
+    """User dashboard page."""
+    if not session.get('user_email'):
+        return redirect(url_for('login'))
+    return render_template('dashboard.html')
 
 @socketio.on('connect')
 def handle_connect():

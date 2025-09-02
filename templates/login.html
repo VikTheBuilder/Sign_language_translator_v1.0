@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HandSpeak – Sign In</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .auth-container {
+            max-width: 900px;
+            margin: 7rem auto 3rem;
+            padding: 0 1rem;
+        }
+        
+        .auth-card {
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.4);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(2,6,23,0.08);
+            display: flex;
+            overflow: hidden;
+            position: relative;
+            min-height: 500px;
+        }
+
+        .auth-form {
+            width: 50%;
+            padding: 3rem;
+            transition: all 0.6s ease-in-out;
+        }
+
+        .welcome-side {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 50%;
+            height: 100%;
+            background: var(--primary, #6366f1);
+            border-radius: 20px;
+            padding: 3rem;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            transition: all 0.6s ease-in-out;
+        }
+
+        .auth-container.register-mode .welcome-side {
+            left: 0;
+        }
+
+        .auth-container.register-mode .auth-form {
+            transform: translateX(100%);
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text, #1e293b);
+        }
+
+        .input {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border: 1px solid var(--border-color, #cbd5e1);
+            border-radius: 0.75rem;
+            outline: none;
+            font-family: inherit;
+            background: var(--input-bg, rgba(255,255,255,0.9));
+            color: var(--text, #1e293b);
+        }
+
+        .input:focus {
+            border-color: var(--primary, #6366f1);
+            box-shadow: 0 0 0 4px var(--ring, rgba(99,102,241,0.15));
+        }
+
+        .social-login {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: var(--social-bg, #f1f5f9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--social-color, #64748b);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background: var(--social-hover-bg, #e2e8f0);
+            color: var(--primary, #4f46e5);
+        }
+
+        /* Dark theme support */
+        :root[data-theme="dark"] .auth-card {
+            background: var(--card, rgba(15,23,42,0.7));
+            border-color: var(--border-color, rgba(148,163,184,0.15));
+        }
+
+        :root[data-theme="dark"] .input-group label {
+            color: var(--text, #e2e8f0);
+        }
+
+        :root[data-theme="dark"] .input {
+            background: var(--card-soft, rgba(15,23,42,0.9));
+            border-color: var(--border-color, rgba(148,163,184,0.2));
+            color: var(--text, #e2e8f0);
+        }
+
+        :root[data-theme="dark"] .social-icon {
+            background: var(--card-soft, rgba(30,41,59,0.8));
+            color: var(--muted, #94a3b8);
+        }
+
+        :root[data-theme="dark"] .social-icon:hover {
+            background: var(--card, rgba(51,65,85,0.8));
+            color: var(--primary, #6366f1);
+        }
+    </style>
+</head>
+<body class="landing-gradient">
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon"><i class="fa-solid fa-hand"></i></div>
+                <span class="logo-text">HandSpeak</span>
+            </div>
+            <nav class="nav">
+                <a href="/" class="nav-link">Home</a>
+                <button id="themeToggle" class="profile-icon" title="Toggle theme"><i id="themeToggleIcon" class="fa-solid fa-moon"></i></button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-form">
+                <h2 style="margin-bottom: 2rem; font-size: 2rem; color: var(--text, #1e293b);">Login</h2>
+                {% if error %}
+                <div style="background:#fee2e2;border:1px solid #fecaca;color:#991b1b;padding:.75rem 1rem;border-radius:.75rem;margin-bottom:1rem;">{{ error }}</div>
+                {% endif %}
+                <form method="post" action="{{ url_for('login') }}" id="authForm">
+                    <div class="input-group username-group">
+                        <label>Username</label>
+                        <input class="input" type="text" name="username" required>
+                    </div>
+                    <div class="input-group email-group" style="display: none;">
+                        <label>Email</label>
+                        <input class="input" type="email" name="email">
+                    </div>
+                    <div class="input-group">
+                        <label>Password</label>
+                        <input class="input" type="password" name="password" required>
+                        <div style="text-align: right; margin-top: 0.5rem;">
+                            <a href="#" style="color: var(--primary, #6366f1); text-decoration: none; font-size: 0.9rem;">Forgot Password?</a>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit" style="width:100%;">Login</button>
+                </form>
+                <div class="social-login">
+                    <p style="color: var(--muted, #64748b);">or login with social platforms</p>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon"><i class="fab fa-google"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="welcome-side">
+                <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Hello, Welcome!</h2>
+                <p style="margin-bottom: 2rem;">Don't have an account?</p>
+                <button class="btn btn-secondary" onclick="toggleAuthMode()">Register</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+    <script>
+        function toggleAuthMode() {
+            const container = document.querySelector('.auth-container');
+            container.classList.toggle('register-mode');
+            
+            const authForm = document.querySelector('.auth-form');
+            const welcomeTitle = document.querySelector('.welcome-side h2');
+            const welcomeText = document.querySelector('.welcome-side p');
+            const welcomeButton = document.querySelector('.welcome-side button');
+            const formTitle = document.querySelector('.auth-form h2');
+            const emailGroup = document.querySelector('.email-group');
+            const form = document.getElementById('authForm');
+            
+            if (container.classList.contains('register-mode')) {
+                welcomeTitle.textContent = 'Welcome Back!';
+                welcomeText.textContent = 'Already have an account?';
+                welcomeButton.textContent = 'Login';
+                formTitle.textContent = 'Register';
+                emailGroup.style.display = 'block';
+                form.action = '/register';
+            } else {
+                welcomeTitle.textContent = 'Hello, Welcome!';
+                welcomeText.textContent = 'Don\'t have an account?';
+                welcomeButton.textContent = 'Register';
+                formTitle.textContent = 'Login';
+                emailGroup.style.display = 'none';
+                form.action = '/login';
+            }
+        }
+    </script>
+</body>
+</html>
+
+

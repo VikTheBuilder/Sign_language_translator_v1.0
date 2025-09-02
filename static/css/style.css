@@ -8,10 +8,147 @@
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     line-height: 1.6;
-    color: #1e293b;
-    background: linear-gradient(135deg, #f0f4ff 0%, #e0e7ff 100%);
+    color: #0f172a;
+    background: linear-gradient(135deg, #f7faff 0%, #eef2ff 100%);
     min-height: 100vh;
     overflow-x: hidden;
+}
+
+/* Dark theme variables */
+:root[data-theme="dark"] {
+    --bg: #0b1020;
+    --bg-soft: #0f1730;
+    --text: #eef2ff;      /* near-white for readability */
+    --muted: #a3b0cc;     /* softer secondary text */
+    --heading: #fafcff;   /* headings pop */
+    --card: #101827;      /* elevated surface */
+    --card-soft: #0c1424; /* inset surface */
+    --primary: #6d7cff;   /* indigo */
+    --primary-accent: #b19cff; /* lavender */
+    --ring: rgba(109,124,255,0.38);
+}
+
+:root[data-theme="dark"] body {
+    color: var(--text);
+    background: radial-gradient(900px 500px at -10% -10%, rgba(124,131,255,.22) 0%, rgba(124,131,255,0) 60%), radial-gradient(900px 600px at 120% -20%, rgba(236,72,153,.14) 0%, rgba(236,72,153,0) 60%), linear-gradient(135deg, var(--bg) 0%, var(--bg-soft) 100%);
+}
+
+:root[data-theme="dark"] .header {
+    background: rgba(15, 23, 42, 0.85);
+    border-bottom-color: rgba(148, 163, 184, 0.15);
+}
+
+:root[data-theme="dark"] .logo, :root[data-theme="dark"] .nav-link.active { color: var(--primary-accent); }
+:root[data-theme="dark"] .nav-link { color: var(--muted); }
+:root[data-theme="dark"] .hero-title, :root[data-theme="dark"] .section-title { color: var(--heading); }
+:root[data-theme="dark"] .hero-subtitle { color: var(--muted); }
+
+:root[data-theme="dark"] .card,
+:root[data-theme="dark"] .progress-card,
+:root[data-theme="dark"] .challenge-card,
+:root[data-theme="dark"] .practice-card,
+:root[data-theme="dark"] .module-card {
+    background: var(--card);
+    box-shadow: 0 10px 25px rgba(0,0,0,.35);
+}
+
+:root[data-theme="dark"] .text-display,
+:root[data-theme="dark"] .video-container,
+:root[data-theme="dark"] .practice-preview { background: var(--card-soft); }
+
+:root[data-theme="dark"] .profile-icon { background: #0b1220; color: #a5b4fc; }
+
+:root[data-theme="dark"] .btn { color: var(--text); }
+:root[data-theme="dark"] .btn-primary { background: var(--primary); }
+:root[data-theme="dark"] .btn-primary:hover { background: #6366f1; box-shadow: 0 10px 25px rgba(124,131,255,.35); }
+:root[data-theme="dark"] .btn-secondary { color: var(--primary-accent); border-color: var(--primary); }
+:root[data-theme="dark"] .btn-secondary:hover { background: rgba(124,131,255,.12); }
+
+:root[data-theme="dark"] .status-message { box-shadow: 0 10px 15px rgba(0,0,0,.5); }
+
+/* Improved bubble & webcam mock for dark mode */
+:root[data-theme="dark"] .speech-bubble { background: #0f172a; color: var(--text); border: 1px solid rgba(148,163,184,.2); }
+:root[data-theme="dark"] .video-container { border: 1px solid rgba(148,163,184,.12); }
+
+/* Higher contrast text inside cards */
+:root[data-theme="dark"] .card-title,
+:root[data-theme="dark"] .placeholder-text,
+:root[data-theme="dark"] .message-content { color: var(--text); }
+
+/* Feature tiles hover ring in dark */
+:root[data-theme="dark"] .feature-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(177,156,255,0.16); }
+:root[data-theme="dark"] .feature-card:hover { box-shadow: 0 18px 40px rgba(0,0,0,.45), 0 0 0 1px var(--ring) inset; transform: translateY(-6px); }
+
+/* Demo container contrast in dark */
+:root[data-theme="dark"] .demo { background: rgba(255,255,255,0.04); border: 1px solid rgba(177,156,255,0.14); }
+
+/* Landing: Steps and Testimonials in dark */
+:root[data-theme="dark"] .step,
+:root[data-theme="dark"] .quote {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(177,156,255,0.16);
+    color: var(--text);
+}
+
+/* Footer in dark */
+:root[data-theme="dark"] footer {
+    background: #0f1626 !important;
+    border-top: 1px solid rgba(177,156,255,0.14) !important;
+}
+
+:root[data-theme="dark"] footer .logo, 
+:root[data-theme="dark"] footer a, 
+:root[data-theme="dark"] footer p, 
+:root[data-theme="dark"] footer h4 {
+    color: var(--text) !important;
+}
+
+/* Footer form controls */
+:root[data-theme="dark"] footer input[type="email"] {
+    background: #0c1424;
+    border: 1px solid rgba(177,156,255,0.18);
+    color: var(--text);
+}
+
+:root[data-theme="dark"] footer .btn.btn-secondary {
+    color: var(--text);
+    border-color: var(--primary);
+}
+
+/* Demo preview box (both themes) */
+.demo .mock-video {
+    position: relative;
+    min-height: 340px;
+    border-radius: 1.25rem;
+    background: linear-gradient(180deg, #f3f6fd 0%, #e9eefb 60%, #e5ebf7 100%);
+    border: 1px solid rgba(2,6,23,0.06);
+    box-shadow: inset 0 8px 32px rgba(2,6,23,0.06);
+}
+
+.demo .mock-video::before {
+    content: "Live camera preview";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: #64748b;
+    font-weight: 600;
+    background: rgba(255,255,255,0.65);
+    padding: 0.5rem 0.9rem;
+    border-radius: 0.75rem;
+    border: 1px solid rgba(2,6,23,0.06);
+}
+
+:root[data-theme="dark"] .demo .mock-video {
+    background: radial-gradient(120% 120% at 20% 10%, #121a2b 0%, #0f172a 60%, #0d1628 100%);
+    border: 1px solid rgba(177,156,255,0.14);
+    box-shadow: inset 0 12px 40px rgba(0,0,0,0.35);
+}
+
+:root[data-theme="dark"] .demo .mock-video::before {
+    background: rgba(15,23,42,0.85);
+    color: #e2e8f0;
+    border: 1px solid rgba(177,156,255,0.2);
 }
 
 /* Header Styles */
@@ -154,20 +291,20 @@ body {
 }
 
 .btn-primary {
-    background: #4f46e5;
-    color: white;
+    background: linear-gradient(90deg, #6366f1, #8b5cf6);
+    color: #ffffff;
 }
 
 .btn-primary:hover {
-    background: #4338ca;
+    background: #5b5de6;
     transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(79, 70, 229, 0.3);
+    box-shadow: 0 10px 25px rgba(99, 102, 241, 0.35);
 }
 
 .btn-secondary {
     background: transparent;
     color: #4f46e5;
-    border: 2px solid #4f46e5;
+    border: 2px solid #6366f1;
 }
 
 .btn-secondary:hover {
@@ -208,7 +345,7 @@ body {
 }
 
 .card {
-    background: white;
+    background: #ffffff;
     border-radius: 1rem;
     padding: 2rem;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
@@ -235,7 +372,7 @@ body {
     height: 300px;
     border-radius: 0.75rem;
     overflow: hidden;
-    background: #f8fafc;
+    background: #f3f6fd;
     margin-bottom: 1rem;
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
 }
@@ -257,7 +394,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #f8fafc;
+    background: #f3f6fd;
     border-radius: 0.75rem;
 }
 
@@ -309,7 +446,7 @@ body {
 /* Text Display */
 .text-display {
     min-height: 300px;
-    background: #f8fafc;
+    background: #f3f6fd;
     border-radius: 0.75rem;
     padding: 1.5rem;
     margin-bottom: 1rem;
@@ -616,7 +753,7 @@ body {
 }
 
 .progress-card {
-    background: white;
+    background: #ffffff;
     border-radius: 1rem;
     padding: 1.5rem;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
@@ -670,7 +807,7 @@ body {
 }
 
 .module-card {
-    background: white;
+    background: #ffffff;
     border-radius: 1rem;
     padding: 1.5rem;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
@@ -725,7 +862,7 @@ body {
 }
 
 .challenge-card {
-    background: white;
+    background: #ffffff;
     border-radius: 1rem;
     padding: 1.5rem;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
@@ -780,7 +917,7 @@ body {
 }
 
 .practice-card {
-    background: white;
+    background: #ffffff;
     border-radius: 1rem;
     padding: 1.5rem;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
@@ -846,4 +983,25 @@ body {
     .module-grid {
         grid-template-columns: 1fr;
     }
+}
+
+/* Points and Badges Styles */
+.points-badge,
+.greetings-badge {
+    background: var(--card);
+    color: var(--text);
+    border: 1px solid var(--primary);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+:root[data-theme="dark"] .points-badge,
+:root[data-theme="dark"] .greetings-badge {
+    background: var(--card);
+    border-color: var(--primary-accent);
+    box-shadow: 0 4px 8px rgba(109, 124, 255, 0.2);
 }
