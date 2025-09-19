@@ -1,4 +1,4 @@
-## HandSpeak – Sign Language Translator
+## UnSpoken – Sign Language Translator
 
 Real-time sign language recognition using Python, Flask, Flask-SocketIO, OpenCV, NumPy, and MediaPipe. The app streams webcam frames from the server to the browser and shows recognized gestures with translations.
 

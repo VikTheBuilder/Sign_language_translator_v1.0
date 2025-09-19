@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HandSpeak - Greetings & Basics</title>
+    <title>UnSpoken - Greetings & Basics</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -242,7 +242,7 @@
         <div class="header-content">
             <div class="logo">
                 <div class="logo-icon"><i class="fa-solid fa-hand"></i></div>
-                <span class="logo-text">HandSpeak</span>
+                <span class="logo-text">UnSpoken</span>
             </div>
             <nav class="nav">
                 <a href="/app" class="nav-link">Home</a>
@@ -281,12 +281,53 @@
                 <div class="sign-info">
                     <h2 id="signName" class="sign-name">Loading...</h2>
                     <p id="signDescription" class="sign-description">Loading sign information...</p>
-                    <div id="masteryBadge" class="mastery-badge" style="display: none;">
-                        <i class="fa-solid fa-check-circle"></i>
-                        <span>Mastered</span>
+                    <div class="sign-status">
+                        <div id="supportedStatus" class="status-badge">Recognition Status: Loading...</div>
+                        <div id="masteryBadge" class="mastery-badge" style="display: none;">
+                            <i class="fa-solid fa-check-circle"></i>
+                            <span>Mastered</span>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Add styles for status badges -->
+            <style>
+                .sign-status {
+                    display: flex;
+                    gap: 1rem;
+                    align-items: center;
+                    margin-top: 1rem;
+                }
+                
+                .status-badge {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    padding: 0.5rem 1rem;
+                    border-radius: 2rem;
+                    font-weight: 600;
+                    font-size: 0.9rem;
+                }
+                
+                .status-badge.supported {
+                    background: #ecfdf5;
+                    color: #059669;
+                }
+                
+                .status-badge.unsupported {
+                    background: #fee2e2;
+                    color: #dc2626;
+                }
+                
+                :root[data-theme="dark"] .status-badge.supported {
+                    background: rgba(5, 150, 105, 0.2);
+                }
+                
+                :root[data-theme="dark"] .status-badge.unsupported {
+                    background: rgba(220, 38, 38, 0.2);
+                }
+            </style>
 
             <!-- Practice Section -->
             <div class="practice-section">

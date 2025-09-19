@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UnSpoken - Learn Basic Signs</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+        }
+        
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        
+        .container { 
+            width: 100%; 
+            max-width: 1800px; 
+            margin: 0 auto; 
+            padding: 2rem; 
+            display: grid; 
+            grid-template-columns: 320px 1fr 320px; 
+            gap: 2.5rem; 
+            align-items: start; 
+            min-height: calc(100vh - 4rem);
+            padding-top: 2rem;
+        }
+    
+        .main-content {
+            min-height: calc(100vh - 4rem);
+            width: 100%;
+            position: relative;
+            padding-top: 1rem;
+        }
+    
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4rem;
+            background: #ffffff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+    
+        .header-content {
+            height: 100%;
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+    
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+    
+        .logo-icon {
+            color: #059669;
+        }
+    
+        .nav {
+            display: flex;
+            gap: 2rem;
+        }
+    
+        .nav-link {
+            color: #4b5563;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+    
+        .nav-link:hover {
+            color: #059669;
+        }
+    
+        .nav-link.active {
+            color: #059669;
+        }
+    
+        .panel {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 1.75rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            height: fit-content;
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+    
+        .panel h2 {
+            color: #1a1a1a;
+            font-size: 1.25rem;
+            margin-bottom: 1.25rem;
+            font-weight: 600;
+        }
+    
+        .letters, .words {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(45px, 1fr));
+            gap: 0.75rem;
+        }
+    
+        .letter-btn, .word-btn {
+            padding: 0.75rem;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 8px;
+            background: #ffffff;
+            color: #1a1a1a;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+    
+        .letter-btn:hover, .word-btn:hover {
+            background: #f3f4f6;
+            border-color: rgba(0,0,0,0.2);
+            transform: translateY(-1px);
+        }
+    
+        .word-btn {
+            width: 100%;
+            text-align: center;
+            padding: 0.75rem 1rem;
+        }
+    
+        .phone {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+    
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background: #f8fafc;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+    
+        .viewer {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+    
+        #viewerCanvas {
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+        }
+    
+        .avatar-selection {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+    
+        .avatar-img {
+            width: 100%;
+            border-radius: 8px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+    
+        .avatar-img:hover {
+            transform: translateY(-2px);
+        }
+    
+        .avatar-img.selected {
+            border-color: #059669;
+        }
+    
+        .slider-label {
+            color: #4b5563;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+    
+        .slider {
+            width: 100%;
+            height: 4px;
+            background: #e5e7eb;
+            border-radius: 2px;
+            appearance: none;
+            margin: 1rem 0;
+        }
+    
+        .slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            background: #059669;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+    
+        .slider::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+        }
+    
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+    
+        .btn {
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            border: none;
+            background: #f3f4f6;
+            color: #1a1a1a;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+    
+        .btn:hover {
+            background: #e5e7eb;
+            transform: translateY(-1px);
+        }
+    
+        #btnTest {
+            background: #059669;
+            color: #ffffff;
+        }
+    
+        #btnTest:hover {
+            background: #047857;
+        }
+    
+        .status {
+            font-size: 0.875rem;
+            color: #4b5563;
+        }
+    
+        /* Responsive design */
+        @media (max-width: 1600px) {
+            .container {
+                grid-template-columns: 300px 1fr 300px;
+                gap: 2rem;
+                padding: 1.75rem;
+            }
+            .phone {
+                height: 550px;
+                padding: 1.75rem;
+            }
+        }
+        
+        @media (max-width: 1400px) {
+            .container {
+                grid-template-columns: 280px 1fr 280px;
+                gap: 1.75rem;
+            }
+            .phone {
+                height: 500px;
+            }
+        }
+        
+        @media (max-width: 1200px) {
+            .container {
+                grid-template-columns: 250px 1fr 250px;
+                gap: 1.5rem;
+                padding: 1.5rem;
+            }
+            .phone {
+                height: 450px;
+                padding: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            .phone {
+                height: 400px;
+                order: -1;
+                margin-bottom: 1.5rem;
+            }
+            .panel {
+                padding: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 1rem;
+                gap: 1rem;
+            }
+            .phone {
+                height: 350px;
+                padding: 1rem;
+                margin-bottom: 1rem;
+            }
+            .panel {
+                padding: 1.25rem;
+            }
+            .header-content {
+                padding: 0 1rem;
+            }
+            .nav {
+                gap: 1.5rem;
+            }
+        }
+    
+        :root[data-theme="dark"] {
+            --bg: #111827;
+            --card: #1f2937;
+            --text: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --border: rgba(255,255,255,0.1);
+            --primary: #34d399;
+            --primary-dark: #059669;
+        }
+    
+        :root[data-theme="dark"] body {
+            background: var(--bg);
+            color: var(--text);
+        }
+    
+        :root[data-theme="dark"] .header {
+            background: var(--card);
+            border-bottom: 1px solid var(--border);
+        }
+    
+        :root[data-theme="dark"] .logo {
+            color: var(--text);
+        }
+    
+        :root[data-theme="dark"] .logo-icon {
+            color: var(--primary);
+        }
+    
+        :root[data-theme="dark"] .nav-link {
+            color: var(--text-secondary);
+        }
+    
+        :root[data-theme="dark"] .nav-link:hover,
+        :root[data-theme="dark"] .nav-link.active {
+            color: var(--primary);
+        }
+    
+        :root[data-theme="dark"] .panel,
+        :root[data-theme="dark"] .phone {
+            background: var(--card);
+            border-color: var(--border);
+        }
+    
+        :root[data-theme="dark"] .panel h2 {
+            color: var(--text);
+        }
+    
+        :root[data-theme="dark"] .letter-btn,
+        :root[data-theme="dark"] .word-btn {
+            background: var(--card);
+            border-color: var(--border);
+            color: var(--text);
+        }
+    
+        :root[data-theme="dark"] .letter-btn:hover,
+        :root[data-theme="dark"] .word-btn:hover {
+            background: #374151;
+            border-color: var(--text-secondary);
+        }
+    
+        :root[data-theme="dark"] .phone-screen {
+            background: var(--bg);
+        }
+    
+        :root[data-theme="dark"] .slider {
+            background: #374151;
+        }
+    
+        :root[data-theme="dark"] .slider::-webkit-slider-thumb {
+            background: var(--primary);
+        }
+    
+        :root[data-theme="dark"] .btn {
+            background: #374151;
+            color: var(--text);
+        }
+    
+        :root[data-theme="dark"] .btn:hover {
+            background: #4b5563;
+        }
+    
+        :root[data-theme="dark"] #btnTest {
+            background: var(--primary-dark);
+        }
+    
+        :root[data-theme="dark"] #btnTest:hover {
+            background: var(--primary);
+        }
+    
+        :root[data-theme="dark"] .status {
+            color: var(--text-secondary);
+        }
+    </style>
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.150.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.150.0/examples/jsm/"
+        }
+    }
+    </script>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon"><i class="fa-solid fa-hand"></i></div>
+                <span class="logo-text">UnSpoken</span>           
+            </div>
+            <nav class="nav">
+                <a href="/app" class="nav-link">Home</a>
+                <a href="{{ url_for('learn') }}" class="nav-link active">Learn</a>
+                <a href="/dashboard" class="nav-link">Dashboard</a>
+            </nav>
+            <div class="user-profile" style="display:flex; gap:.75rem; align-items:center;">
+                <button id="themeToggle" class="profile-icon" title="Toggle theme"><i id="themeToggleIcon" class="fa-solid fa-moon"></i></button>
+                <a href="/logout" class="profile-icon" title="Logout" style="text-decoration:none;"><i class="fa-solid fa-right-from-bracket"></i></a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content" style="padding-top: 4rem; min-height: calc(100vh - 60px); width: 100%; overflow-x: hidden;">
+        <div class="container">
+            <div class="panel">
+                <h2>Alphabets</h2>
+                <div class="letters" id="alphabetButtons">
+                    <!-- Alphabet buttons will be generated by JavaScript -->
+                </div>
+                <h2 style="margin-top:1rem;">Words</h2>
+                <div class="words" id="wordButtons">
+                    <!-- Word buttons will be generated by JavaScript -->
+                </div>
+            </div>
+
+            <div class="phone">
+                <div class="phone-screen">
+                    <div class="viewer"><div id="viewerCanvas"></div></div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2>Select Avatar</h2>
+                <div class="avatar-selection">
+                    <img src="{{ url_for('static', filename='models/ybot/ybot.png') }}" 
+                         alt="YBOT" 
+                         class="avatar-img selected" 
+                         data-model="ybot"
+                         id="ybot-avatar" />
+                    <img src="{{ url_for('static', filename='models/xbot/xbot.png') }}" 
+                         alt="XBOT" 
+                         class="avatar-img" 
+                         data-model="xbot"
+                         id="xbot-avatar" />
+                </div>
+                <div style="margin-top:1rem;">
+                    <div class="slider-label">Animation Speed</div>
+                    <input id="speed-slider" type="range" min="0.05" max="0.5" step="0.01" value="0.1" class="slider" />
+                    <div class="slider-label" id="speed-value">0.1</div>
+                </div>
+                <div style="margin-top:1rem;">
+                    <div class="slider-label">Pause time</div>
+                    <input id="pause-slider" type="range" min="0" max="2000" step="100" value="800" class="slider" />
+                    <div class="slider-label" id="pause-value">800 ms</div>
+                </div>
+                <div class="controls">
+                    <button id="btnReset" class="btn">Reset Pose</button>
+                    <button id="btnTest" class="btn" style="background: #059669;">Test Animation</button>
+                    <span id="status" class="status"></span>
+                </div>
+                <div style="margin-top: 1rem;">
+                    <div class="slider-label">Loading Status</div>
+                    <div id="loading-status" class="status">Loading animations...</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Load animation modules -->
+    <script type="module" src="{{ url_for('static', filename='js/animations/defaultPose.js') }}"></script>
+
+    <script type="module">
+    import * as THREE from 'three';
+    import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+    // Global variables
+    let scene, camera, renderer, controls;
+    let mixer = null;
+    let model = null;
+    let actions = [];
+    let currentBot = 'ybot';
+    let speed = 0.1;
+    let pause = 800;
+    let animations = [];
+    let flag = false;
+    let pending = false;
+    let currentAnimation = null;
+
+    // Animation reference object
+    const ref = {
+        animations: [],
+        characters: [],
+        flag: false,
+        pending: false,
+        scene: null,
+        camera: null,
+        renderer: null,
+        avatar: null,
+        animate: null
+    };
+
+    // Initialize the 3D scene
+    function initScene() {
+        const container = document.getElementById('viewerCanvas');
+        const statusEl = document.getElementById('status');
+        
+        scene = new THREE.Scene();
+        scene.background = new THREE.Color(0xdddddd);
+
+        camera = new THREE.PerspectiveCamera(30, container.clientWidth / container.clientHeight, 0.1, 1000);
+        camera.position.set(0, 1.4, 1.6);
+
+        renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        container.appendChild(renderer.domElement);
+
+        // Add lighting
+        const spotLight = new THREE.SpotLight(0xffffff, 2);
+        spotLight.position.set(0, 5, 5);
+        scene.add(spotLight);
+
+        // Add orbit controls
+        controls = new OrbitControls(camera, renderer.domElement);
+        controls.target.set(0, 1.2, 0);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.08;
+        controls.zoomSpeed = 1.0;
+        controls.panSpeed = 0.6;
+        controls.update();
+
+        // Set up ref object
+        ref.scene = scene;
+        ref.camera = camera;
+        ref.renderer = renderer;
+        ref.animations = [];
+        ref.characters = [];
+        ref.flag = false;
+        ref.pending = false;
+
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            // Handle custom animations
+            if (ref.animations.length === 0) {
+                ref.pending = false;
+                if (currentAnimation) {
+                    setButtonState(currentAnimation, false);
+                    currentAnimation = null;
+                }
+                return;
+            }
+            
+            if (ref.animations[0].length) {
+                if (!ref.flag) {
+                    for (let i = 0; i < ref.animations[0].length;) {
+                        let [boneName, action, axis, limit, sign] = ref.animations[0][i];
+                        const bone = ref.avatar?.getObjectByName(boneName);
+                        
+                        if (bone) {
+                            if (sign === "+" && bone[action][axis] < limit) {
+                                bone[action][axis] += speed;
+                                bone[action][axis] = Math.min(bone[action][axis], limit);
+                                i++;
+                            } else if (sign === "-" && bone[action][axis] > limit) {
+                                bone[action][axis] -= speed;
+                                bone[action][axis] = Math.max(bone[action][axis], limit);
+                                i++;
+                            } else {
+                                ref.animations[0].splice(i, 1);
+                            }
+                        } else {
+                            console.warn(`Bone not found: ${boneName}`);
+                            ref.animations[0].splice(i, 1);
+                        }
+                    }
+                }
+            } else {
+                ref.flag = true;
+                setTimeout(() => {
+                    ref.flag = false;
+                }, pause);
+                ref.animations.shift();
+            }
+
+            // Update controls and render
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        ref.animate = animate;
+        animate();
+
+        // Handle window resize
+        function onWindowResize() {
+            const w = container.clientWidth;
+            const h = container.clientHeight;
+            camera.aspect = w / h;
+            camera.updateProjectionMatrix();
+            renderer.setSize(w, h);
+        }
+        window.addEventListener('resize', onWindowResize);
+    }
+
+    // Load 3D model
+    async function loadModel(modelPath) {
+        const loader = new GLTFLoader();
+        const statusEl = document.getElementById('status');
+        
+        return new Promise((resolve, reject) => {
+            statusEl.textContent = 'Loading model...';
+            statusEl.className = 'status loading';
+            
+            loader.load(modelPath, (gltf) => {
+                // Clear previous model
+                if (model) {
+                    scene.remove(model);
+                    model.traverse((obj) => {
+                        if (obj.isMesh) {
+                            obj.geometry.dispose();
+                            if (obj.material.map) obj.material.map.dispose();
+                            obj.material.dispose();
+                        }
+                    });
+                }
+
+                model = gltf.scene;
+                model.traverse((child) => {
+                    if (child.type === 'SkinnedMesh') {
+                        child.frustumCulled = false;
+                    }
+                });
+                
+                scene.add(model);
+                ref.avatar = model;
+
+                // Set default pose
+                if (window.defaultPose) {
+                    window.defaultPose(ref);
+                }
+
+                statusEl.textContent = '';
+                statusEl.className = 'status';
+                resolve();
+            }, (xhr) => {
+                if (xhr.total) {
+                    const pct = Math.round((xhr.loaded / xhr.total) * 100);
+                    statusEl.textContent = `Loading... ${pct}%`;
+                }
+            }, (err) => {
+                statusEl.textContent = 'Failed to load model';
+                statusEl.className = 'status error';
+                reject(err);
+            });
+        });
+    }
+
+    // Button state management
+    function setButtonState(buttonText, isAnimating) {
+        const buttons = document.querySelectorAll('.letter-btn, .word-btn');
+        buttons.forEach(btn => {
+            if (btn.textContent === buttonText) {
+                if (isAnimating) {
+                    btn.classList.add('animating');
+                    btn.disabled = true;
+                } else {
+                    btn.classList.remove('animating');
+                    btn.disabled = false;
+                }
+            }
+        });
+    }
+
+    function clearAllButtonStates() {
+        const buttons = document.querySelectorAll('.letter-btn, .word-btn');
+        buttons.forEach(btn => {
+            btn.classList.remove('animating');
+            btn.disabled = false;
+        });
+    }
+
+    // Load animation files
+    function loadAnimationFiles() {
+        const loadingStatus = document.getElementById('loading-status');
+        let loadedCount = 0;
+        const totalFiles = 30; // 26 alphabets + 4 words
+
+        function updateLoadingStatus() {
+            loadedCount++;
+            const percentage = Math.round((loadedCount / totalFiles) * 100);
+            loadingStatus.textContent = `Loading animations... ${percentage}%`;
+            
+            if (loadedCount === totalFiles) {
+                loadingStatus.textContent = 'All animations loaded!';
+                loadingStatus.className = 'status loading';
+                setTimeout(() => {
+                    loadingStatus.textContent = 'Ready to learn!';
+                    loadingStatus.className = 'status';
+                }, 1000);
+            }
+        }
+
+        // Load alphabet files
+        const alphabetFiles = [
+            'A.js', 'B.js', 'C.js', 'D.js', 'E.js', 'F.js', 'G.js', 'H.js', 'I.js', 'J.js',
+            'K.js', 'L.js', 'M.js', 'N.js', 'O.js', 'P.js', 'Q.js', 'R.js', 'S.js', 'T.js',
+            'U.js', 'V.js', 'W.js', 'X.js', 'Y.js', 'Z.js'
+        ];
+
+        alphabetFiles.forEach(file => {
+            const script = document.createElement('script');
+            script.type = 'module';
+            script.src = `{{ url_for('static', filename='js/animations/Alphabets/') }}${file}`;
+            script.onload = updateLoadingStatus;
+            script.onerror = () => {
+                console.error(`Failed to load ${file}`);
+                updateLoadingStatus();
+            };
+            document.head.appendChild(script);
+        });
+
+        // Load word files
+        const wordFiles = ['TIME.js', 'HOME.js', 'PERSON.js', 'YOU.js'];
+        wordFiles.forEach(file => {
+            const script = document.createElement('script');
+            script.type = 'module';
+            script.src = `{{ url_for('static', filename='js/animations/Words/') }}${file}`;
+            script.onload = updateLoadingStatus;
+            script.onerror = () => {
+                console.error(`Failed to load ${file}`);
+                updateLoadingStatus();
+            };
+            document.head.appendChild(script);
+        });
+    }
+
+    // Generate alphabet buttons
+    function generateAlphabetButtons() {
+        const container = document.getElementById('alphabetButtons');
+        container.innerHTML = '';
+        
+        for (let i = 0; i < 26; i++) {
+            const letter = String.fromCharCode(i + 65);
+            const button = document.createElement('button');
+            button.className = 'letter-btn';
+            button.textContent = letter;
+            button.addEventListener('click', () => {
+                if (ref.animations.length === 0 && window[letter]) {
+                    console.log(`Starting animation for letter ${letter} with speed:`, speed);
+                    currentAnimation = letter;
+                    setButtonState(letter, true);
+                    window[letter](ref);
+                } else if (ref.animations.length > 0) {
+                    console.log('Animation in progress, please wait...');
+                } else {
+                    console.log(`Animation for letter ${letter} not loaded yet`);
+                }
+            });
+            container.appendChild(button);
+        }
+    }
+
+    // Generate word buttons
+    function generateWordButtons() {
+        const container = document.getElementById('wordButtons');
+        container.innerHTML = '';
+        
+        const wordList = ['TIME', 'HOME', 'PERSON', 'YOU'];
+        wordList.forEach(word => {
+            const button = document.createElement('button');
+            button.className = 'word-btn';
+            button.textContent = word;
+            button.addEventListener('click', () => {
+                if (ref.animations.length === 0 && window[word]) {
+                    console.log(`Starting animation for word ${word} with speed:`, speed);
+                    currentAnimation = word;
+                    setButtonState(word, true);
+                    window[word](ref);
+                } else if (ref.animations.length > 0) {
+                    console.log('Animation in progress, please wait...');
+                } else {
+                    console.log(`Animation for word ${word} not loaded yet`);
+                }
+            });
+            container.appendChild(button);
+        });
+    }
+
+    // Initialize the application
+    async function init() {
+        loadAnimationFiles();
+        initScene();
+        generateAlphabetButtons();
+        generateWordButtons();
+        
+        // Load initial model
+        try {
+            await loadModel('{{ url_for("static", filename="models/ybot/ybot.glb") }}');
+        } catch (e) {
+            console.error('Failed to load initial model', e);
+        }
+    }
+
+    // Event listeners
+    document.getElementById('ybot-avatar').addEventListener('click', async () => {
+        currentBot = 'ybot';
+        document.getElementById('ybot-avatar').classList.add('selected');
+        document.getElementById('xbot-avatar').classList.remove('selected');
+        try {
+            await loadModel('{{ url_for("static", filename="models/ybot/ybot.glb") }}');
+        } catch (e) {
+            console.error('Failed to load YBOT model', e);
+        }
+    });
+
+    document.getElementById('xbot-avatar').addEventListener('click', async () => {
+        currentBot = 'xbot';
+        document.getElementById('xbot-avatar').classList.add('selected');
+        document.getElementById('ybot-avatar').classList.remove('selected');
+        try {
+            await loadModel('{{ url_for("static", filename="models/xbot/xbot.glb") }}');
+        } catch (e) {
+            console.error('Failed to load XBOT model', e);
+        }
+    });
+
+    document.getElementById('speed-slider').addEventListener('input', (e) => {
+        speed = parseFloat(e.target.value);
+        document.getElementById('speed-value').textContent = speed.toFixed(2);
+        console.log('Animation speed updated to:', speed);
+    });
+
+    document.getElementById('pause-slider').addEventListener('input', (e) => {
+        pause = parseInt(e.target.value);
+        document.getElementById('pause-value').textContent = pause + ' ms';
+    });
+
+    document.getElementById('btnReset').addEventListener('click', () => {
+        if (window.defaultPose) {
+            ref.animations = [];
+            ref.characters = [];
+            ref.flag = false;
+            ref.pending = false;
+            currentAnimation = null;
+            clearAllButtonStates();
+            window.defaultPose(ref);
+        }
+    });
+
+    document.getElementById('btnTest').addEventListener('click', () => {
+        console.log('Testing animation with speed:', speed);
+        if (window.A && ref.animations.length === 0) {
+            console.log('Running test animation A');
+            currentAnimation = 'A';
+            setButtonState('A', true);
+            window.A(ref);
+        } else if (ref.animations.length > 0) {
+            console.log('Animation already in progress');
+        } else {
+            console.log('Animation A not loaded yet');
+        }
+    });
+
+    // Theme toggle functionality
+    document.getElementById('themeToggle').addEventListener('click', () => {
+        const root = document.documentElement;
+        const currentTheme = root.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', newTheme);
+        
+        const icon = document.getElementById('themeToggleIcon');
+        icon.className = newTheme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+        
+        // Update scene background
+        if (scene) {
+            scene.background = new THREE.Color(newTheme === 'dark' ? 0x0c1424 : 0xdddddd);
+        }
+        
+        // Store theme preference
+        localStorage.setItem('theme', newTheme);
+    });
+
+    // Initialize theme on page load
+    function initializeTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+        
+        const root = document.documentElement;
+        root.setAttribute('data-theme', theme);
+        
+        const icon = document.getElementById('themeToggleIcon');
+        icon.className = theme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+        
+        // Update scene background
+        if (scene) {
+            scene.background = new THREE.Color(theme === 'dark' ? 0x0c1424 : 0xdddddd);
+        }
+    }
+
+    // Initialize when page loads
+    window.addEventListener('load', () => {
+        initializeTheme();
+        init();
+    });
+    </script>
+</body>
+</html>

@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HandSpeak - Sign Language Translator</title>
+    <title>UnSpoken - Sign Language Translator</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 </head>
 <body>
     <!-- Header -->
@@ -14,7 +15,7 @@
         <div class="header-content">
             <div class="logo">
                 <div class="logo-icon"><i class="fa-solid fa-hand"></i></div>
-                <span class="logo-text">HandSpeak</span>
+                <span class="logo-text">UnSpoken</span>
             </div>
             <nav class="nav">
                 <a href="/app" class="nav-link active">Home</a>
@@ -88,25 +89,7 @@
         </div>
         
         <!-- Chatbot Section -->
-        <div class="chatbot-section">
-            <div class="chatbot-container">
-                <div class="chatbot-header">
-                    <h2>HandSpeak Assistant</h2>
-                    <button id="minimizeChatBtn" class="minimize-btn"><i class="fa-solid fa-minus"></i></button>
-                </div>
-                <div class="chatbot-messages" id="chatMessages">
-                    <div class="message bot-message">
-                        <div class="message-avatar"><i class="fa-solid fa-robot"></i></div>
-                        <div class="message-content">Hi there! I'm your HandSpeak assistant. How can I help you with sign language today?</div>
-                    </div>
-                </div>
-                <div class="chatbot-input">
-                    <input type="text" id="chatInput" placeholder="Type your message here...">
-                    <button id="sendMessageBtn"><i class="fa-solid fa-paper-plane"></i></button>
-                </div>
-            </div>
-            <button id="openChatBtn" class="chat-toggle-btn"><i class="fa-solid fa-comments"></i></button>
-        </div>
+
     </section>
 
     <!-- Status Messages -->
@@ -114,6 +97,11 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
     <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/unSpokenApp.js') }}"></script>
+    
+{% if show_chatbot %}
+  {% include 'partials/chatbot.html' %}
+{% endif %}
+
 </body>
 </html>

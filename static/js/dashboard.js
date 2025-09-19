@@ -1,5 +1,5 @@
 /**
- * HandSpeak Dashboard - User Progress Visualization
+ * UnSpoken Dashboard - User Progress Visualization
  * Client-side functionality for the user dashboard
  */
 
@@ -20,7 +20,7 @@ let dashboardData = {
  * Initialize the dashboard
  */
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('📊 HandSpeak Dashboard initialized');
+    console.log('📊 UnSpoken Dashboard initialized');
     
     // Load and aggregate all data
     loadDashboardData();
@@ -42,13 +42,13 @@ function loadDashboardData() {
     console.log('📈 Loading dashboard data...');
     
     // Load main user progress data
-    dashboardData.userProgress = JSON.parse(localStorage.getItem('handspeak_user_data') || '{}');
+    dashboardData.userProgress = JSON.parse(localStorage.getItem('unspoken_user_data') || '{}');
     
     // Load signs mastered log
-    dashboardData.signsMasteredLog = JSON.parse(localStorage.getItem('handSpeak_signsMasteredLog') || '[]');
+    dashboardData.signsMasteredLog = JSON.parse(localStorage.getItem('unSpoken_signsMasteredLog') || '[]');
     
     // Load daily streak
-    dashboardData.dailyStreak = parseInt(localStorage.getItem('handSpeak_dailyStreak') || '0');
+    dashboardData.dailyStreak = parseInt(localStorage.getItem('unSpoken_dailyStreak') || '0');
     
     // Load module data
     loadModuleData();
@@ -63,7 +63,7 @@ function loadDashboardData() {
  * Load data from all learning modules
  */
 function loadModuleData() {
-    const moduleKeys = ['handSpeak_module_greetings', 'handSpeak_module_family', 'handSpeak_module_food'];
+    const moduleKeys = ['unSpoken_module_greetings', 'unSpoken_module_family', 'unSpoken_module_food'];
     
     moduleKeys.forEach(key => {
         const moduleData = JSON.parse(localStorage.getItem(key) || '[]');
@@ -91,9 +91,9 @@ function loadModuleData() {
  */
 function getModuleDisplayName(key) {
     const nameMap = {
-        'handSpeak_module_greetings': 'Greetings & Basics',
-        'handSpeak_module_family': 'Family & Relationships',
-        'handSpeak_module_food': 'Food & Dining'
+        'unSpoken_module_greetings': 'Greetings & Basics',
+        'unSpoken_module_family': 'Family & Relationships',
+        'unSpoken_module_food': 'Food & Dining'
     };
     return nameMap[key] || key;
 }
@@ -112,8 +112,8 @@ function loadDailyChallengeData() {
         const dateStr = date.toISOString().split('T')[0];
         
         // Check if challenge was completed on this date
-        const lastChallengeDate = localStorage.getItem('handSpeak_lastChallengeDate');
-        const isCompleted = localStorage.getItem('handSpeak_dailyChallengeComplete') === 'true' && lastChallengeDate === dateStr;
+        const lastChallengeDate = localStorage.getItem('unSpoken_lastChallengeDate');
+        const isCompleted = localStorage.getItem('unSpoken_dailyChallengeComplete') === 'true' && lastChallengeDate === dateStr;
         
         dashboardData.dailyChallengeHistory.push({
             date: dateStr,

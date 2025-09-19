@@ -688,12 +688,12 @@ function startModule(moduleId) {
     
     // Redirect to the appropriate module page
     if (moduleId === 'greetings') {
-        window.location.href = '/module/greetings';
+            window.location.href = '/module-greetings';
     } else if (moduleId === 'family') {
-        window.location.href = '/module/family';
+        window.location.href = '/module-family';
     } else if (moduleId === 'food') {
-        window.location.href = '/module/food';
+        window.location.href = '/module-food';
     } else if (moduleId === 'questions') {
-        window.location.href = '/module/questions';
+        window.location.href = '/module-questions';
     }
 }

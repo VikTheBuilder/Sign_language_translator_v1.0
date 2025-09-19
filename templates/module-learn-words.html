@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UnSpoken - Learn Words</title>
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.150.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.150.0/examples/jsm/"
+        }
+    }
+    </script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+        }
+        
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        
+        .container { 
+            width: 100%; 
+            max-width: 1800px; 
+            margin: 0 auto; 
+            padding: 2rem; 
+            display: grid; 
+            grid-template-columns: 320px 1fr 320px; 
+            gap: 2.5rem; 
+            align-items: start; 
+            min-height: calc(100vh - 4rem);
+            padding-top: 2rem;
+        }
+    
+        .main-content {
+            min-height: calc(100vh - 4rem);
+            width: 100%;
+            position: relative;
+            padding-top: 1rem;
+        }
+    
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4rem;
+            background: #ffffff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+    
+        .header-content {
+            height: 100%;
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+    
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+    
+        .logo-icon {
+            color: #059669;
+        }
+    
+        .nav {
+            display: flex;
+            gap: 2rem;
+        }
+    
+        .nav-link {
+            color: #4b5563;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+    
+        .nav-link:hover {
+            color: #059669;
+        }
+    
+        .nav-link.active {
+            color: #059669;
+        }
+    
+        .panel {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 1.75rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            height: fit-content;
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+    
+        .panel h2 {
+            color: #1a1a1a;
+            font-size: 1.25rem;
+            margin-bottom: 1.25rem;
+            font-weight: 600;
+        }
+    
+        .words {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+        }
+    
+        .word-btn {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 8px;
+            background: #ffffff;
+            color: #1a1a1a;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+    
+        .word-btn:hover {
+            background: #f3f4f6;
+            border-color: rgba(0,0,0,0.2);
+            transform: translateY(-1px);
+        }
+    
+        .word-btn.animating {
+            background: #059669;
+            color: #ffffff;
+            border-color: #059669;
+        }
+    
+        .phone {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+    
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background: #f8fafc;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+    
+        .viewer {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+    
+        #viewerCanvas {
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+        }
+    
+        .avatar-selection {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+    
+        .avatar-img {
+            width: 100%;
+            border-radius: 8px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+    
+        .avatar-img:hover {
+            transform: translateY(-2px);
+        }
+    
+        .avatar-img.selected {
+            border-color: #059669;
+        }
+    
+        .slider-label {
+            color: #4b5563;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+    
+        .slider {
+            width: 100%;
+            height: 4px;
+            background: #e5e7eb;
+            border-radius: 2px;
+            appearance: none;
+            margin: 1rem 0;
+        }
+    
+        .slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            background: #059669;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+    
+        .slider::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+        }
+    
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+    
+        .btn {
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            border: none;
+            background: #f3f4f6;
+            color: #1a1a1a;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex: 1;
+        }
+    
+        .btn:hover {
+            background: #e5e7eb;
+            transform: translateY(-1px);
+        }
+    
+        #testAnimation {
+            background: #059669;
+            color: #ffffff;
+        }
+    
+        #testAnimation:hover {
+            background: #047857;
+        }
+    
+        .status {
+            font-size: 0.875rem;
+            color: #4b5563;
+            margin-top: 0.5rem;
+        }
+    
+        /* Responsive design */
+        @media (max-width: 1600px) {
+            .container {
+                grid-template-columns: 300px 1fr 300px;
+                gap: 2rem;
+                padding: 1.75rem;
+            }
+            .phone {
+                height: 550px;
+                padding: 1.75rem;
+            }
+        }
+        
+        @media (max-width: 1400px) {
+            .container {
+                grid-template-columns: 280px 1fr 280px;
+                gap: 1.75rem;
+            }
+            .phone {
+                height: 500px;
+            }
+        }
+        
+        @media (max-width: 1200px) {
+            .container {
+                grid-template-columns: 250px 1fr 250px;
+                gap: 1.5rem;
+                padding: 1.5rem;
+            }
+            .phone {
+                height: 450px;
+                padding: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            .phone {
+                height: 400px;
+                order: -1;
+                margin-bottom: 1.5rem;
+            }
+            .panel {
+                padding: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 1rem;
+                gap: 1rem;
+            }
+            .phone {
+                height: 350px;
+                padding: 1rem;
+                margin-bottom: 1rem;
+            }
+            .panel {
+                padding: 1.25rem;
+            }
+            .header-content {
+                padding: 0 1rem;
+            }
+            .nav {
+                gap: 1.5rem;
+            }
+        }
+    
+        :root[data-theme="dark"] {
+            --bg: #111827;
+            --card: #1f2937;
+            --text: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --border: rgba(255,255,255,0.1);
+            --primary: #34d399;
+            --primary-dark: #059669;
+        }
+    
+        :root[data-theme="dark"] body {
+            background: var(--bg);
+            color: var(--text);
+        }
+    
+        :root[data-theme="dark"] .header {
+            background: var(--card);
+            border-bottom: 1px solid var(--border);
+        }
+    
+        :root[data-theme="dark"] .logo {
+            color: var(--text);
+        }
+    
+        :root[data-theme="dark"] .logo-icon {
+            color: var(--primary);
+        }
+    
+        :root[data-theme="dark"] .nav-link {
+            color: var(--text-secondary);
+        }
+    
+        :root[data-theme="dark"] .nav-link:hover,
+        :root[data-theme="dark"] .nav-link.active {
+            color: var(--primary);
+        }
+    
+        :root[data-theme="dark"] .panel,
+        :root[data-theme="dark"] .phone {
+            background: var(--card);
+            border-color: var(--border);
+        }
+    
+        :root[data-theme="dark"] .panel h2 {
+            color: var(--text);
+        }
+    
+        :root[data-theme="dark"] .word-btn {
+            background: var(--card);
+            border-color: var(--border);
+            color: var(--text);
+        }
+    
+        :root[data-theme="dark"] .word-btn:hover {
+            background: #374151;
+            border-color: var(--text-secondary);
+        }
+    
+        :root[data-theme="dark"] .word-btn.animating {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+    
+        :root[data-theme="dark"] .phone-screen {
+            background: var(--bg);
+        }
+    
+        :root[data-theme="dark"] .slider {
+            background: #374151;
+        }
+    
+        :root[data-theme="dark"] .slider::-webkit-slider-thumb {
+            background: var(--primary);
+        }
+    
+        :root[data-theme="dark"] .btn {
+            background: #374151;
+            color: var(--text);
+        }
+    
+        :root[data-theme="dark"] .btn:hover {
+            background: #4b5563;
+        }
+    
+        :root[data-theme="dark"] #testAnimation {
+            background: var(--primary-dark);
+        }
+    
+        :root[data-theme="dark"] #testAnimation:hover {
+            background: var(--primary);
+        }
+    
+        :root[data-theme="dark"] .status {
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon"><i class="fa-solid fa-hand"></i></div>
+                <span class="logo-text">UnSpoken</span>           
+            </div>
+            <nav class="nav">
+                <a href="/app" class="nav-link">Home</a>
+                <a href="{{ url_for('learn') }}" class="nav-link active">Learn</a>
+                <a href="/dashboard" class="nav-link">Dashboard</a>
+            </nav>
+            <div class="user-profile" style="display:flex; gap:.75rem; align-items:center;">
+                <button id="themeToggle" class="profile-icon" title="Toggle theme"><i id="themeToggleIcon" class="fa-solid fa-moon"></i></button>
+                <a href="/logout" class="profile-icon" title="Logout" style="text-decoration:none;"><i class="fa-solid fa-right-from-bracket"></i></a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content" style="padding-top: 4rem;">
+        <div class="container">
+            <div class="panel">
+                <h2>Words</h2>
+                <div class="words" id="wordButtons">
+                    <button class="word-btn" id="btnGoodbye">Goodbye</button>
+                </div>
+                <div id="status-container" class="status">Ready to play animations</div>
+            </div>
+
+            <div class="phone">
+                <div class="phone-screen">
+                    <div class="viewer" id="viewerCanvas"></div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2>Select Avatar</h2>
+                <div class="avatar-selection">
+                    <img src="{{ url_for('static', filename='models/ybot/ybot.png') }}" 
+                         alt="YBOT" 
+                         class="avatar-img selected" 
+                         data-model="ybot"
+                         id="ybot-avatar" />
+                    <img src="{{ url_for('static', filename='models/xbot/xbot.png') }}" 
+                         alt="XBOT" 
+                         class="avatar-img"
+                         data-model="xbot"
+                         id="xbot-avatar" />
+                </div>
+                <div style="margin-top:1rem;">
+                    <div class="slider-label">Animation Speed: <span id="speed-value">0.1</span></div>
+                    <input type="range" id="speed-slider" class="slider" min="0.1" max="2" step="0.1" value="0.1">
+                </div>
+                <div style="margin-top:1rem;">
+                    <div class="slider-label">Pause Time: <span id="pause-value">800ms</span></div>
+                    <input type="range" id="pause-slider" class="slider" min="0" max="2000" step="100" value="800">
+                </div>
+                <div class="controls">
+                    <button id="testAnimation" class="btn">Test Animation</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="{{ url_for('static', filename='js/module-learn-words.js') }}"></script>
+</body>
+</html>

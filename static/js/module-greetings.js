@@ -38,61 +38,57 @@ const signsData = [
         name: "Hello",
         videoUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDdtY2JxZXVnOGQwcWRnNGZxNnJxZnBnZnRvNWJvMGZlcWFxdmJmZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKNthed4OG7T5Je/giphy.gif",
         description: "To sign 'Hello', raise your hand near your head, palm facing outward, and move it away from your face in an arc motion, as if you're waving.",
-        mastered: false
+        mastered: false,
+        supported: true
     },
     {
         name: "Thank You",
         videoUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDdtY2JxZXVnOGQwcWRnNGZxNnJxZnBnZnRvNWJvMGZlcWFxdmJmZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKNthed4OG7T5Je/giphy.gif",
         description: "To sign 'Thank You', touch your lips with the fingertips of your dominant hand, then move your hand forward and down in the direction of the person you're thanking.",
-        mastered: false
+        mastered: false,
+        supported: true
     },
     {
         name: "Please",
         videoUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDdtY2JxZXVnOGQwcWRnNGZxNnJxZnBnZnRvNWJvMGZlcWFxdmJmZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKNthed4OG7T5Je/giphy.gif",
         description: "To sign 'Please', place your dominant hand flat on your chest with your palm facing your body, and move it in a circular motion clockwise.",
-        mastered: false
+        mastered: false,
+        supported: true
     },
     {
         name: "Sorry",
         videoUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDdtY2JxZXVnOGQwcWRnNGZxNnJxZnBnZnRvNWJvMGZlcWFxdmJmZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKNthed4OG7T5Je/giphy.gif",
         description: "To sign 'Sorry', make a fist with your dominant hand, place it against your chest, and move it in a circular motion.",
-        mastered: false
+        mastered: false,
+        supported: true
     },
     {
         name: "Good Morning",
         videoUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDdtY2JxZXVnOGQwcWRnNGZxNnJxZnBnZnRvNWJvMGZlcWFxdmJmZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKNthed4OG7T5Je/giphy.gif",
         description: "To sign 'Good Morning', first sign 'good' by placing your dominant hand flat against your lips, then moving it down and away. Then sign 'morning' by drawing a half-circle from east to west with your dominant hand.",
-        mastered: false
+        mastered: false,
+        supported: false
     },
     {
         name: "Good Night",
         videoUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDdtY2JxZXVnOGQwcWRnNGZxNnJxZnBnZnRvNWJvMGZlcWFxdmJmZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKNthed4OG7T5Je/giphy.gif",
         description: "To sign 'Good Night', first sign 'good', then for 'night', bring your dominant hand down over your face like closing your eyes.",
-        mastered: false
+        mastered: false,
+        supported: false
     },
     {
         name: "Yes",
         videoUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDdtY2JxZXVnOGQwcWRnNGZxNnJxZnBnZnRvNWJvMGZlcWFxdmJmZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKNthed4OG7T5Je/giphy.gif",
         description: "To sign 'Yes', make a fist with your dominant hand, then bob it up and down at the wrist, like nodding your head.",
-        mastered: false
+        mastered: false,
+        supported: false
     },
     {
         name: "No",
         videoUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDdtY2JxZXVnOGQwcWRnNGZxNnJxZnBnZnRvNWJvMGZlcWFxdmJmZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKNthed4OG7T5Je/giphy.gif",
         description: "To sign 'No', extend your thumb, index, and middle fingers (like the letter 'E'), then close them together twice.",
-        mastered: false
-    },
-    {
-        name: "Nice to Meet You",
-        videoUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDdtY2JxZXVnOGQwcWRnNGZxNnJxZnBnZnRvNWJvMGZlcWFxdmJmZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKNthed4OG7T5Je/giphy.gif",
-        description: "To sign 'Nice to Meet You', first sign 'nice' by brushing your dominant hand down your chest, then sign 'meet' by bringing both hands together with index fingers extended, and finally point to the person you're addressing.",
-        mastered: false
-    },
-    {
-        name: "How are you?",
-        videoUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDdtY2JxZXVnOGQwcWRnNGZxNnJxZnBnZnRvNWJvMGZlcWFxdmJmZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKNthed4OG7T5Je/giphy.gif",
-        description: "To sign 'How are you?', point to the person with your index finger, then place both hands in front of you with palms up and move them slightly upward with a questioning expression.",
-        mastered: false
+        mastered: false,
+        supported: true
     }
 ];
 
@@ -103,8 +99,135 @@ let state = {
     webcamActive: false,
     stream: null,
     recognitionInterval: null,
-    allSignsMastered: false
+    allSignsMastered: false,
+    socket: null
 };
+
+// Initialize socket connection
+function initializeSocket() {
+    state.socket = io();
+    
+    state.socket.on('sign_recognition_result', (data) => {
+        if (data.success) {
+            const currentSign = signsData[state.currentSignIndex];
+            const recognizedSign = data.sign;
+            
+            if (recognizedSign === currentSign.name) {
+                showFeedback(true);
+                if (!currentSign.mastered) {
+                    currentSign.mastered = true;
+                    logSignMastered();
+                    saveModuleData();
+                    updateProgressUI();
+                    checkAllSignsMastered();
+                }
+            } else {
+                showFeedback(false);
+            }
+        } else {
+            showStatus(data.error || 'Error during sign recognition', 'error');
+        }
+    });
+}
+
+// Start sign recognition
+function startSignRecognition() {
+    const currentSign = signsData[state.currentSignIndex];
+    
+    if (!currentSign.supported) {
+        showStatus('This sign is not supported by the recognition model yet', 'warning');
+        return;
+    }
+    
+    state.recognitionInterval = setInterval(() => {
+        if (state.webcamActive) {
+            const canvas = document.createElement('canvas');
+            const video = elements.webcamFeed;
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0);
+            
+            // Convert canvas to base64
+            const imageData = canvas.toDataURL('image/jpeg');
+            
+            // Send frame to server for processing
+            fetch('/process_sign', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    image: imageData,
+                    current_sign: currentSign.name
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    if (data.is_correct) {
+                        showFeedback(true, 'Perfect! Sign recognized correctly');
+                        if (!currentSign.mastered) {
+                            currentSign.mastered = true;
+                            logSignMastered();
+                            saveModuleData();
+                            updateProgressUI();
+                            checkAllSignsMastered();
+                        }
+                        stopSignRecognition();
+                    } else {
+                        showFeedback(false, 'Try Again - Keep practicing!');
+                    }
+                } else if (data.status === 'no_hands') {
+                    elements.feedbackOverlay.classList.remove('visible');
+                } else {
+                    showStatus(data.message || 'Error during sign recognition', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showStatus('Error communicating with the server', 'error');
+            });
+        }
+    }, 1000); // Check every second
+}
+
+// Update sign display with supported status
+function updateSignDisplay() {
+    const currentSign = signsData[state.currentSignIndex];
+    
+    elements.signName.textContent = currentSign.name;
+    elements.signDescription.textContent = currentSign.description;
+    elements.signVideo.src = currentSign.videoUrl;
+    elements.signVideo.alt = `${currentSign.name} sign demonstration`;
+    
+    elements.masteryBadge.style.display = currentSign.mastered ? 'inline-flex' : 'none';
+    
+    // Update practice button based on support status
+    if (currentSign.supported) {
+        elements.startPracticeBtn.disabled = false;
+        elements.startPracticeBtn.title = '';
+    } else {
+        elements.startPracticeBtn.disabled = true;
+        elements.startPracticeBtn.title = 'This sign is not supported by the recognition model yet';
+    }
+    
+    elements.prevSignBtn.disabled = state.currentSignIndex === 0;
+    elements.nextSignBtn.disabled = state.currentSignIndex === signsData.length - 1;
+    
+    // Show supported status
+    const supportedStatus = document.getElementById('supportedStatus');
+    if (supportedStatus) {
+        supportedStatus.textContent = currentSign.supported ? 'Supported by Recognition' : 'Recognition Coming Soon';
+        supportedStatus.className = currentSign.supported ? 'status-badge supported' : 'status-badge unsupported';
+    }
+}
+
+// Initialize the module when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    initModule();
+    initializeSocket();
+});
 
 // Local storage key for this module
 const STORAGE_KEY = 'handSpeak_module_greetings';
@@ -505,6 +628,3 @@ function logSignMastered() {
     
     localStorage.setItem('handSpeak_signsMasteredLog', JSON.stringify(signsMasteredLog));
 }
-
-// Initialize the module when the page loads
-document.addEventListener('DOMContentLoaded', initModule);

@@ -28,7 +28,7 @@ let frameCount = 0;
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('🎯 HandSpeak application initialized');
+    console.log('🎯 UnSpoken application initialized');
     
     // Set up event listeners
     setupEventListeners();
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function setInitialMessage() {
     translationText.innerHTML = `
         <div class="translation-item">
-            <div class="gesture-name">Welcome to HandSpeak</div>
+            <div class="gesture-name">Welcome to UnSpoken</div>
             <div class="translation-text">Click "Start Translating" to begin</div>
         </div>
     `;
@@ -108,7 +108,7 @@ function setupWebSocket() {
     // Connection events
     socket.on('connect', function() {
         console.log('🔌 Connected to server');
-        showStatus('Connected to HandSpeak', 'success');
+        showStatus('Connected to UnSpoken', 'success');
     });
     
     socket.on('disconnect', function() {
@@ -513,51 +513,6 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
-
-// Add this to the existing app.js file, after the existing code
-
-// Chatbot functionality
-const chatMessages = document.getElementById('chatMessages');
-const chatInput = document.getElementById('chatInput');
-const sendMessageBtn = document.getElementById('sendMessageBtn');
-const openChatBtn = document.getElementById('openChatBtn');
-const minimizeChatBtn = document.getElementById('minimizeChatBtn');
-const chatbotContainer = document.querySelector('.chatbot-container');
-
-// Predefined responses for the chatbot
-const botResponses = {
-    greetings: [
-        "Hello! How can I help you with sign language today?",
-        "Hi there! Do you have questions about HandSpeak?",
-        "Welcome! I'm here to assist with your sign language needs."
-    ],
-    help: [
-        "I can help you learn about sign language, explain how HandSpeak works, or provide tips for better recognition.",
-        "Need assistance? I can guide you through using HandSpeak or answer questions about sign language."
-    ],
-    about: [
-        "HandSpeak is an AI-powered sign language translator that converts hand gestures to text and speech in real-time.",
-        "Our application uses computer vision to recognize sign language gestures and translate them instantly."
-    ],
-    how_it_works: [
-        "HandSpeak uses your webcam to capture hand movements, then our AI analyzes the gestures and translates them to text.",
-        "The system detects hand landmarks using MediaPipe, then matches the gesture patterns to our sign language database."
-    ],
-    supported_signs: [
-        "We currently support basic signs like greetings, numbers, and common phrases. We're constantly expanding our library!",
-        "HandSpeak can recognize dozens of common signs including hello, thank you, numbers 1-10, and basic questions."
-    ],
-    tips: [
-        "For best results, ensure good lighting, position your hands clearly in the frame, and make deliberate gestures.",
-        "Try to keep a neutral background and make sure your hands are fully visible to the camera."
-    ],
-    fallback: [
-        "I'm not sure I understand. Could you rephrase that?",
-        "I'm still learning! Could you try asking in a different way?",
-        "I don't have information about that yet. Is there something else I can help with?"
-    ]
-};
-
 // Initialize chatbot
 document.addEventListener('DOMContentLoaded', function() {
     // Set up chatbot event listeners

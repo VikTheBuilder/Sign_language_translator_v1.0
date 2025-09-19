@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HandSpeak - Learn Sign Language</title>
+    <title>UnSpoken - Learn Sign Language</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -14,7 +14,7 @@
         <div class="header-content">
             <div class="logo">
                 <div class="logo-icon"><i class="fa-solid fa-hand"></i></div>
-                <span class="logo-text">HandSpeak</span>
+                <span class="logo-text">UnSpoken</span>
             </div>
             <nav class="nav">
                 <a href="/app" class="nav-link">Home</a>
@@ -93,7 +93,7 @@
                         </div>
                         <span>8/10 Completed</span>
                     </div>
-                    <button class="btn btn-primary module-btn">Continue</button>
+                    <a href="{{ url_for('module_greetings') }}" class="btn btn-primary module-btn">Continue</a>
                 </div>
                 <div class="module-card">
                     <div class="module-icon"><i class="fa-solid fa-users"></i></div>
@@ -105,7 +105,7 @@
                         </div>
                         <span>4/10 Completed</span>
                     </div>
-                    <button class="btn btn-primary module-btn">Continue</button>
+                    <a href="{{ url_for('module_family') }}" class="btn btn-primary module-btn">Continue</a>
                 </div>
                 <div class="module-card">
                     <div class="module-icon"><i class="fa-solid fa-utensils"></i></div>
@@ -117,7 +117,7 @@
                         </div>
                         <span>0/10 Completed</span>
                     </div>
-                    <button class="btn btn-primary module-btn">Start</button>
+                    <a href="{{ url_for('module_food') }}" class="btn btn-primary module-btn">Start</a>
                 </div>
                 <div class="module-card locked">
                     <div class="module-icon"><i class="fa-solid fa-lock"></i></div>
@@ -129,7 +129,36 @@
                         </div>
                         <span>Locked</span>
                     </div>
-                    <button class="btn btn-secondary module-btn">Unlock at Level 5</button>
+                    <button class="btn btn-secondary module-btn" disabled>Unlock at Level 5</button>
+                </div>
+            </div>
+        </div>
+        <div class="learning-modules">
+            <h2 class="section-title">Basic Signs</h2>
+            <div class="module-grid">
+                <div class="module-card">
+                    <div class="module-icon"><i class="fa-solid fa-user-astronaut"></i></div>
+                    <h3>Learn Basic Signs</h3>
+                    <p>Learn alphabets and common words with our 3D avatar instructor.</p>
+                    <div class="module-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%;"></div>
+                        </div>
+                        <span>0/30 Completed</span>
+                    </div>
+                    <a href="{{ url_for('learn_basic_signs') }}" class="btn btn-primary module-btn">Start</a>
+                </div>
+                <div class="module-card">
+                    <div class="module-icon"><i class="fa-solid fa-book-open"></i></div>
+                    <h3>Learn Words</h3>
+                    <p>Learn common words and phrases with our 3D avatar instructor.</p>
+                    <div class="module-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%;"></div>
+                        </div>
+                        <span>0/10 Completed</span>
+                    </div>
+                    <a href="{{ url_for('learn_words') }}" class="btn btn-primary module-btn">Start</a>
                 </div>
             </div>
         </div>
@@ -193,5 +222,9 @@
     <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
     <script src="{{ url_for('static', filename='js/learn.js') }}"></script>
+    {% if show_chatbot %}
+  {% include 'partials/chatbot.html' %}
+    {% endif %}
+
 </body>
 </html>

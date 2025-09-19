@@ -4,20 +4,21 @@ import cv2
 from collections import deque
 import time
 import mediapipe as mp
+import joblib
+import os
+import json
 
 class ReliableSignRecognizer:
     def __init__(self):
         """Initialize the reliable sign language recognizer using MediaPipe."""
-        self.gesture_history = deque(maxlen=20)  # Store recent frames
+        # --- New Stability Logic ---
+        self.prediction_history = deque(maxlen=15) # Store last 15 raw predictions
         self.last_recognition_time = 0
-        self.min_gesture_duration = 1.5  # seconds
-        self.min_confidence = 0.6
-        
-        # Gesture stability tracking
-        self.current_gesture = None
-        self.gesture_start_time = 0
-        self.gesture_stability_count = 0
-        self.min_stability_frames = 8  # Must be stable for 8 frames
+        self.min_time_between_recognitions = 1.5 # Cooldown period in seconds
+        self.stability_threshold = 0.7 # 70% of frames in history must be the same gesture
+
+        # --- Model and MediaPipe Setup ---
+        self.min_model_confidence = 0.6  # Lowered confidence threshold for better detection (was 0.7)
         
         # Initialize MediaPipe for hand detection
         self.mp_hands = mp.solutions.hands
@@ -34,6 +35,28 @@ class ReliableSignRecognizer:
         )
         
         print("✅ Reliable Hand Detector initialized with MediaPipe!")
+
+        # --- Load the new Random Forest Model ---
+        self.model = None
+        # Labels provided by the user, converted to string keys for model compatibility.
+        # Using standardized lowercase_with_underscores format
+        self.labels = { "0": "hello", "1": "help", "2": "thank_you", "3": "goodbye", "4": "happy", "5": "stop", "6": "sorry", "7": "angry", "8": "food", "9": "good", "10": "please", "11": "you", "12": "no", "13": "one", "14": "two" }
+        
+        # Use absolute path for model loading
+        model_path = 'd:/Sign_language_translator_v1.0/New Sign Model/Project_Exibition SLT Model-RandomForest/model.p'
+
+        try:
+            if os.path.exists(model_path):
+                model_dict = joblib.load(model_path)
+                self.model = model_dict['model']  # Extract model from dictionary
+                print(f"✅ Random Forest model loaded successfully from '{model_path}'")
+                print(f"✅ Labels are hardcoded. Model supports {len(self.labels)} signs.")
+            else:
+                print(f"❌ Error: Model file not found. Looked for '{model_path}'.")
+                raise FileNotFoundError(f"Model file not found at {model_path}")
+        except Exception as e:
+            print(f"❌ Critical Error loading Random Forest model: {e}")
+            raise  # Re-raise the exception to ensure the application knows about the failure
         
         # Comprehensive sign language mapping
         self.sign_mapping = {
@@ -196,29 +219,20 @@ class ReliableSignRecognizer:
         """
         # Detect hands using MediaPipe
         processed_frame, landmarks_list = self.detect_hands_mediapipe(frame)
-        
-        # Add frame to history for sequence analysis
-        self.gesture_history.append(frame)
-        
-        # Keep only recent frames (last 2 seconds at 10 FPS = 20 frames)
-        if len(self.gesture_history) > 20:
-            self.gesture_history.popleft()
-        
-        # Only process if we have enough frames and hands detected
-        if len(self.gesture_history) < 5 or not landmarks_list:
+
+        # Use reliable landmark-based recognition to get a raw prediction
+        raw_gesture = self._reliable_recognition(landmarks_list)
+
+        # Add the raw prediction (or None) to our history
+        self.prediction_history.append(raw_gesture)
+
+        # Check if the predictions have become stable
+        stable_gesture = self._check_gesture_stability()
+        if stable_gesture:
+            translation = self.translate_gesture(stable_gesture)
+            return stable_gesture, translation
+        else:
             return None, None
-        
-        # Use reliable landmark-based recognition
-        gesture = self._reliable_recognition(landmarks_list)
-        
-        if gesture:
-            # Check gesture stability
-            stable_gesture = self._check_gesture_stability(gesture)
-            if stable_gesture:
-                translation = self.translate_gesture(stable_gesture)
-                return stable_gesture, translation
-        
-        return None, None
     
     def _reliable_recognition(self, landmarks_list: List) -> Optional[str]:
         """
@@ -244,6 +258,7 @@ class ReliableSignRecognizer:
     def _analyze_landmarks_for_signs(self, landmarks: List) -> Optional[str]:
         """
         Analyze landmarks to recognize specific signs.
+        This method now uses the loaded Random Forest model for prediction.
         
         Args:
             landmarks: Hand landmarks
@@ -251,169 +266,76 @@ class ReliableSignRecognizer:
         Returns:
             Recognized sign or None
         """
-        landmarks_array = np.array(landmarks)
+        if not self.model:
+            print("❌ Error: Model not loaded")
+            return None
         
-        # Extract key features
-        x_coords = landmarks_array[:, 0]
-        y_coords = landmarks_array[:, 1]
-        
-        # Hand dimensions
-        width = np.max(x_coords) - np.min(x_coords)
-        height = np.max(y_coords) - np.min(y_coords)
-        aspect_ratio = width / (height + 1e-8)
-        
-        # Hand center
-        center_x = np.mean(x_coords)
-        center_y = np.mean(y_coords)
-        
-        # Analyze finger positions
-        finger_tips = landmarks_array[[4, 8, 12, 16, 20]]  # Thumb, index, middle, ring, pinky
-        finger_bases = landmarks_array[[2, 5, 9, 13, 17]]
-        
-        # Calculate finger extensions
-        finger_extensions = []
-        for i in range(len(finger_tips)):
-            extension = np.linalg.norm(finger_tips[i][:2] - finger_bases[i][:2])
-            finger_extensions.append(extension)
-        
-        avg_extension = np.mean(finger_extensions)
-        
-        # Get individual finger states
-        thumb_extended = finger_extensions[0] > 0.15
-        index_extended = finger_extensions[1] > 0.15
-        middle_extended = finger_extensions[2] > 0.15
-        ring_extended = finger_extensions[3] > 0.15
-        pinky_extended = finger_extensions[4] > 0.15
-        
-        # Count extended fingers
-        extended_fingers = sum([thumb_extended, index_extended, middle_extended, ring_extended, pinky_extended])
-        
-        # Comprehensive sign classification based on finger patterns
-        gesture = self._classify_by_finger_patterns(
-            extended_fingers, thumb_extended, index_extended, middle_extended, 
-            ring_extended, pinky_extended, aspect_ratio, center_y, avg_extension
-        )
-        
-        return gesture
-    
-    def _classify_by_finger_patterns(self, extended_fingers, thumb, index, middle, ring, pinky, aspect_ratio, center_y, avg_extension):
-        """
-        Classify gestures based on finger patterns.
-        
-        Args:
-            extended_fingers: Number of extended fingers
-            thumb, index, middle, ring, pinky: Boolean states of each finger
-            aspect_ratio: Hand aspect ratio
-            center_y: Hand center Y position
-            avg_extension: Average finger extension
+        try:
+            # 1. Extract x and y coordinates only (matching the training data)
+            data_aux = []
+            x_ = []
+            y_ = []
             
-        Returns:
-            Recognized gesture or None
-        """
-        
-        # Basic gestures based on finger count
-        if extended_fingers == 0:
-            return 'no'
-        elif extended_fingers == 1:
-            if index:
-                return 'one'
-            elif thumb:
-                return 'good'
-        elif extended_fingers == 2:
-            if index and middle:
-                return 'two'
-            elif thumb and index:
-                return 'hello'
-        elif extended_fingers == 3:
-            if index and middle and ring:
-                return 'three'
-            elif thumb and index and middle:
-                return 'help'
-        elif extended_fingers == 4:
-            if index and middle and ring and pinky:
-                return 'four'
-            elif thumb and index and middle and ring:
-                return 'thank_you'
-        elif extended_fingers == 5:
-            return 'five'
-        
-        # Specific gesture patterns
-        if thumb and not index and not middle and not ring and not pinky:
-            if center_y < 0.5:
-                return 'good'
-            else:
-                return 'bad'
-        
-        if index and not thumb and not middle and not ring and not pinky:
-            return 'one'
-        
-        if index and middle and not thumb and not ring and not pinky:
-            return 'two'
-        
-        if index and middle and ring and not thumb and not pinky:
-            return 'three'
-        
-        if index and middle and ring and pinky and not thumb:
-            return 'four'
-        
-        if thumb and index and not middle and not ring and not pinky:
-            if center_y < 0.4:
-                return 'hello'
-            else:
-                return 'please'
-        
-        if thumb and index and middle and not ring and not pinky:
-            return 'help'
-        
-        if thumb and index and middle and ring and not pinky:
-            return 'thank_you'
-        
-        # Gestures based on hand position and aspect ratio
-        if aspect_ratio > 1.2 and center_y < 0.4:
-            return 'hello'
-        elif aspect_ratio < 0.8 and center_y > 0.6:
-            return 'no'
-        elif aspect_ratio > 1.5:
-            return 'help'
-        
-        # Gestures based on average extension
-        if avg_extension > 0.2 and center_y < 0.4:
-            return 'good'
-        elif avg_extension < 0.1 and center_y > 0.6:
-            return 'bad'
-        
+            # First collect all x and y coordinates
+            for landmark in landmarks:
+                x_.append(landmark[0])  # x coordinate
+                y_.append(landmark[1])  # y coordinate
+            
+            # Then normalize them relative to min x and y
+            for landmark in landmarks:
+                data_aux.append(landmark[0] - min(x_))  # normalized x
+                data_aux.append(landmark[1] - min(y_))  # normalized y
+            
+            # The model expects a 2D array for prediction: (1, num_features)
+            feature_vector_2d = np.array([data_aux])
+            
+            # Make prediction using predict()
+            prediction = self.model.predict(feature_vector_2d)
+            prediction_index = str(prediction[0])  # Convert prediction to string for label lookup
+            gesture_name = self.labels.get(prediction_index)
+
+            # --- Enhanced Debugging ---
+            if gesture_name:
+                print(f"[RAW PREDICTION]: '{gesture_name}'")
+            
+            return gesture_name
+            
+        except Exception as e:
+            print(f"❌ Error during model prediction: {e}")
+            return None
+    
+    def _classify_by_finger_patterns(self, *args, **kwargs):
+        # This function is now obsolete and can be removed or left as a placeholder.
         return None
     
-    def _check_gesture_stability(self, gesture: str) -> Optional[str]:
+    def _check_gesture_stability(self) -> Optional[str]:
         """
-        Check if gesture has been stable for enough time.
-        
-        Args:
-            gesture: Recognized gesture
-            
-        Returns:
-            Stable gesture or None
+        Check if a gesture is stable by looking at the prediction history.
+        A gesture is stable if it's the most common prediction in the last
+        N frames and exceeds a confidence threshold.
         """
-        current_time = time.time()
-        
-        if gesture == self.current_gesture:
-            # Same gesture, increment stability count
-            self.gesture_stability_count += 1
-            
-            # Check if gesture has been stable long enough
-            if (self.gesture_stability_count >= self.min_stability_frames and 
-                current_time - self.gesture_start_time >= self.min_gesture_duration):
-                
-                # Check if enough time has passed since last recognition
-                if current_time - self.last_recognition_time > self.min_gesture_duration:
-                    self.last_recognition_time = current_time
-                    return gesture
-        else:
-            # New gesture, reset tracking
-            self.current_gesture = gesture
-            self.gesture_start_time = current_time
-            self.gesture_stability_count = 1
-        
+        # Wait until the history buffer is full to make a decision
+        if len(self.prediction_history) < self.prediction_history.maxlen:
+            return None
+
+        # Find the most common gesture in the history, ignoring None values
+        try:
+            # This gets the most frequent item. `max` on a set of predictions, using the list's count method as the key.
+            most_common_gesture = max(set(g for g in self.prediction_history if g is not None), key=list(self.prediction_history).count)
+        except ValueError:
+            # This occurs if the history is all `None`
+            return None
+
+        # Check if the most common gesture meets our stability threshold
+        if self.prediction_history.count(most_common_gesture) >= self.prediction_history.maxlen * self.stability_threshold:
+            # The gesture is stable. Now, check the cooldown timer.
+            current_time = time.time()
+            if current_time - self.last_recognition_time > self.min_time_between_recognitions:
+                self.last_recognition_time = current_time
+                # Clear history to prevent immediate re-triggering
+                self.prediction_history.clear()
+                return most_common_gesture
+
         return None
     
     def translate_gesture(self, gesture: str) -> str:
@@ -438,13 +360,7 @@ class ReliableSignRecognizer:
         Returns:
             Dictionary with gesture information
         """
-        return {
-            'name': gesture,
-            'description': f'Sign language gesture: {gesture}',
-            'translation': self.translate_gesture(gesture),
-            'confidence': 0.85,
-            'model': 'MediaPipe Hand Detection'
-        }
+        return { 'name': gesture, 'description': f'Sign language gesture: {gesture}', 'translation': self.translate_gesture(gesture), 'confidence': self.min_model_confidence, 'model': 'Random Forest Classifier' }
     
     def get_supported_gestures(self) -> List[str]:
         """
@@ -466,13 +382,13 @@ class ReliableSignRecognizer:
             'name': 'sign-language-translator',
             'version': '0.8.1',
             'status': 'active',
-            'supported_languages': ['en'],
-            'model_type': 'MediaPipe Hand Detection',
+            'supported_languages': ['en'], # Assuming English for now
+            'model_type': 'Random Forest Classifier' if self.model else 'Rule-Based',
             'available_modules': ['hand_detection', 'landmarks'],
             'ml_models': {
-                'hand_landmarks': 'MediaPipe Hands',
-                'status': 'loaded',
-                'supported_signs': len(self.sign_mapping)
+                'hand_landmarks': 'Random Forest' if self.model else 'Not Loaded',
+                'status': 'loaded' if self.model else 'not_loaded',
+                'supported_signs': len(self.labels) if self.model else len(self.sign_mapping)
             },
             'accuracy_improvements': {
                 'mediapipe_detection': 'Enabled',
@@ -485,4 +401,4 @@ class ReliableSignRecognizer:
     def release(self):
         """Release resources."""
         if hasattr(self, 'hands'):
-            self.hands.close() 
+            self.hands.close()

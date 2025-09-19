@@ -1,5 +1,0 @@
-# Activate environment
-source /c/Users/HP/anaconda3/etc/profile.d/conda.sh && conda activate sign_language
-
-# Run the main application
-python reliable_app.py

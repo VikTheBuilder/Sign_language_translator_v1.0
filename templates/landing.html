@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HandSpeak – Communication Without Barriers</title>
+    <title>UnSpoken – Communication Without Barriers</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/chatbot.css') }}">
+
     <style>
         body { font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
         .landing-gradient { background: radial-gradient(1000px 500px at -10% -10%, #c7d2fe 0%, rgba(199,210,254,0) 60%), radial-gradient(900px 500px at 110% -10%, #fbcfe8 0%, rgba(251,207,232,0) 60%), linear-gradient(135deg, #e0f2fe 0%, #ede9fe 50%, #ffe4e6 100%); }
@@ -43,7 +45,7 @@
         <div class="header-content">
             <div class="logo">
                 <div class="logo-icon"><i class="fa-solid fa-hand"></i></div>
-                <span class="logo-text">HandSpeak</span>
+                <span class="logo-text">UnSpoken</span>
             </div>
             <nav class="nav">
                 <a href="#features" class="nav-link">Features</a>
@@ -61,7 +63,7 @@
         <div class="hero" style="padding:0;">
             <div class="hero-content">
                 <div class="hero-text">
-                    <h1 class="hero-title">Breaking Barriers with Handspeak ✋</h1>
+                    <h1 class="hero-title">Breaking Barriers with UnSpoken ✋</h1>
                     <p class="hero-subtitle">Instant sign language translation into text and speech. Empowering communication across communities.</p>
                     <div class="hero-cta">
                         <a class="btn btn-gradient" href="{{ url_for('login') }}">Start Translating 🎥</a>
@@ -160,6 +162,7 @@
     </footer>
 
     <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
     <script>
         // simple reveal on scroll
         const elements = document.querySelectorAll('.reveal');
@@ -173,6 +176,30 @@
         document.addEventListener('scroll', onScroll);
         window.addEventListener('load', onScroll);
     </script>
+    <!-- Chatbot Snippet -->
+<div class="chat-bubble" id="chat-bubble">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+</div>
+<div class="chat-container" id="chat-container">
+    <div class="chat-header">
+        <h3>UnSpoken Helper</h3>
+        <button class="close-chat" id="close-chat">&times;</button>
+    </div>
+    <div class="chat-box" id="chat-box">
+        <div class="chat-message bot-message">
+            <p>Hello! I'm UnSpoken Helper. How can I assist you with sign language today?</p>
+        </div>
+    </div>
+    <div class="chat-input">
+        <input type="text" id="user-input" placeholder="Ask a question...">
+        <button id="send-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+        </button>
+    </div>
+</div>
+<!-- End Chatbot Snippet -->
+<script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
+
 </body>
 </html>
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HandSpeak – Sign In</title>
+    <title>UnSpoken – Sign In</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -146,7 +146,7 @@
         <div class="header-content">
             <div class="logo">
                 <div class="logo-icon"><i class="fa-solid fa-hand"></i></div>
-                <span class="logo-text">HandSpeak</span>
+                <span class="logo-text">UnSpoken</span>
             </div>
             <nav class="nav">
                 <a href="/" class="nav-link">Home</a>
@@ -199,6 +199,7 @@
     </div>
 
     <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
     <script>
         function toggleAuthMode() {
             const container = document.querySelector('.auth-container');

@@ -1,16 +1,19 @@
-from flask import Flask, render_template, Response, jsonify, redirect, url_for, request, session
+from flask import Flask, render_template, Response, jsonify, redirect, url_for, request, session, send_from_directory
 from flask_socketio import SocketIO, emit
 import cv2
 import numpy as np
 import base64
 import threading
 import time
-import json
 from typing import Optional, Tuple
+import os
+import requests
+from dotenv import load_dotenv
 
 from reliable_sign_recognition import ReliableSignRecognizer
 
 app = Flask(__name__)
+load_dotenv()
 app.config['SECRET_KEY'] = 'reliable_sign_language_translator_secret_key'
 socketio = SocketIO(app, cors_allowed_origins="*")
 
@@ -28,7 +31,11 @@ def initialize_system():
         sign_recognizer = ReliableSignRecognizer()
         print("✅ Reliable system initialized successfully!")
         print("🎯 Using MediaPipe hand detection for accurate recognition!")
+        print("🤖 Random Forest model loaded and ready!")
         return True
+    except FileNotFoundError as e:
+        print(f"❌ Error initializing reliable system - Model not found: {e}")
+        return False
     except Exception as e:
         print(f"❌ Error initializing reliable system: {e}")
         return False
@@ -150,7 +157,7 @@ def generate_frames():
 @app.route('/')
 def landing():
     """Public marketing landing page."""
-    return render_template('landing.html')
+    return render_template('landing.html', show_chatbot=True)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -189,7 +196,7 @@ def app_home():
     """Protected application page that renders the main translator UI."""
     if not session.get('user_email'):
         return redirect(url_for('login'))
-    return render_template('index.html')
+    return render_template('index.html', show_chatbot=True)
 
 @app.route('/start_camera')
 def start_camera():
@@ -245,8 +252,21 @@ def get_supported_gestures():
             'gestures': gestures,
             'count': len(gestures)
         })
-    else:
-        return jsonify({'error': 'Sign recognizer not initialized'})
+
+@app.route('/New/<path:filename>')
+def serve_animation(filename):
+    """Serve animation files from the New directory."""
+    return send_from_directory('New', filename)
+
+@app.route('/static/models/<path:filename>')
+def serve_models(filename):
+    """Serve model files from the static/models directory."""
+    return send_from_directory('static/models', filename)
+
+@app.route('/assets/<path:filename>')
+def serve_assets(filename):
+    """Serve files from the assets directory."""
+    return send_from_directory('static', filename)
 
 @app.route('/get_translator_info')
 def get_translator_info():
@@ -259,39 +279,169 @@ def get_translator_info():
 
 @app.route('/learn')
 def learn():
-    """Learning page with gamification."""
-    # Optional: require login for learn page
+    """Learning dashboard page."""
     if not session.get('user_email'):
         return redirect(url_for('login'))
-    return render_template('learn.html')
+    return render_template('learn.html', show_chatbot=True)
 
-@app.route('/module/greetings')
+@app.route('/learn-basic-signs')
+def learn_basic_signs():
+    """Learn basic signs page."""
+    if not session.get('user_email'):
+        return redirect(url_for('login'))
+    return render_template('module-learn-basic-signs.html', show_chatbot=True)
+
+@app.route('/learn-words')
+def learn_words():
+    """Learn words page."""
+    if not session.get('user_email'):
+        return redirect(url_for('login'))
+    return render_template('module-learn-words.html', show_chatbot=True)
+
+@app.route('/module-greetings')
 def module_greetings():
-    """Render the Greetings & Basics learning module page."""
+    """Greetings module page."""
     if not session.get('user_email'):
         return redirect(url_for('login'))
-    return render_template('module-greetings.html')
+    return render_template('module-greetings.html', show_chatbot=True)
 
-@app.route('/module/family')
+@app.route('/module-family')
 def module_family():
-    # Check if user is logged in
+    """Family module page."""
     if not session.get('user_email'):
         return redirect(url_for('login'))
-    return render_template('module-family.html')
+    return render_template('module-family.html', show_chatbot=True)
 
-@app.route('/module/food')
+@app.route('/module-food')
 def module_food():
-    """Render the Food & Dining learning module page."""
+    """Food module page."""
     if not session.get('user_email'):
         return redirect(url_for('login'))
-    return render_template('module-food.html')
+    return render_template('module-food.html', show_chatbot=True)
 
 @app.route('/dashboard')
 def dashboard():
     """User dashboard page."""
     if not session.get('user_email'):
         return redirect(url_for('login'))
-    return render_template('dashboard.html')
+    return render_template('dashboard.html', show_chatbot=True)
+
+@app.route('/chat', methods=['POST'])
+def chat():
+    """Handle chatbot conversation."""
+    # Allow unauthenticated users (e.g., on the landing page) to use the chatbot.
+    # if not session.get('user_email'):
+    #     return jsonify({'error': 'Authentication required'}), 401
+    data = request.get_json()
+    user_message = data.get('message')
+
+    if not user_message:
+        return jsonify({'error': 'No message provided'}), 400
+
+    api_key = os.getenv('OPENROUTER_API_KEY')
+    if not api_key:
+        print("❌ OPENROUTER_API_KEY not found. Please create a .env file with OPENROUTER_API_KEY='your_key'.")
+        return jsonify({'error': 'Chatbot not configured on the server. The API key is missing.'}), 500
+
+    system_prompt = (
+        "You are 'UnSpoken Helper', a friendly and knowledgeable AI assistant for the 'UnSpoken' sign language translator application. "
+        "Your goal is to help users learn and understand sign language. "
+        "You can answer questions about specific signs, grammar, culture, and provide learning tips. "
+        "Keep your answers concise and encouraging. The application supports gestures like: Hello, Thank You, I Love You, Yes, No, Please, Help, Sorry, Goodbye, and more related to greetings, family, and food. "
+        "When asked about a sign, describe how to perform it clearly. "
+        "Do not answer questions unrelated to sign language or the UnSpoken application."
+    )
+
+    try:
+        response = requests.post(
+            url="https://openrouter.ai/api/v1/chat/completions",
+            headers={
+                "Authorization": f"Bearer {api_key}",
+                "Content-Type": "application/json",
+                # Recommended headers for OpenRouter
+                "HTTP-Referer": request.host_url,
+                "X-Title": "UnSpoken Sign Language Translator"
+            },
+            json={
+                "model": "deepseek/deepseek-chat-v3.1:free",
+                "messages": [
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_message}
+                ]
+            },
+            timeout=20  # Add a timeout to prevent hanging
+        )
+        response.raise_for_status()  # Raise an exception for bad status codes (4xx or 5xx)
+
+        chat_response = response.json()
+        choices = chat_response.get('choices', [])
+        if not choices:
+            print(f"🔍 Chatbot API returned no choices: {chat_response}")
+            return jsonify({'error': 'Received an empty response from the chatbot service.'}), 503
+
+        bot_message = choices[0].get('message', {}).get('content')
+        return jsonify({'reply': bot_message})
+    except requests.exceptions.HTTPError as e:
+        error_body = e.response.text
+        print(f"❌ HTTP Error from chatbot API: {e.response.status_code} - Body: {error_body}")
+        return jsonify({'error': f'The chatbot service returned an error ({e.response.status_code}). Please check the server logs for details.'}), 503
+    except requests.exceptions.RequestException as e:
+        print(f"❌ Network error communicating with chatbot API: {e}")
+        return jsonify({'error': 'Could not connect to the chatbot service. Please check the server\'s network connection.'}), 503
+    except Exception as e:
+        print(f"❌ Unexpected error in chat endpoint: {e}")
+        return jsonify({'error': 'An unexpected server error occurred.'}), 500
+
+@app.route('/process_sign', methods=['POST'])
+def process_sign():
+    """Process a sign image and return recognition results."""
+    try:
+        # Get the image data and current sign from the request
+        data = request.get_json()
+        if not data:
+            return jsonify({'error': 'No data received'}), 400
+            
+        image_data = data.get('image')
+        current_sign = data.get('current_sign')
+        
+        if not image_data or not current_sign:
+            return jsonify({'error': 'Missing image data or current sign'}), 400
+            
+        # Convert base64 image to numpy array
+        image_bytes = base64.b64decode(image_data.split(',')[1])
+        nparr = np.frombuffer(image_bytes, np.uint8)
+        frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+        
+        if sign_recognizer is None:
+            return jsonify({'error': 'Sign recognizer not initialized'}), 500
+            
+        # Process the frame using the sign recognizer
+        result = sign_recognizer.process_frame(frame)
+        
+        if result is None:
+            return jsonify({
+                'status': 'no_hands',
+                'message': 'No hands detected'
+            })
+            
+        predicted_sign = result
+        
+        # Check if the predicted sign matches the current sign
+        is_correct = predicted_sign.lower() == current_sign.lower()
+        
+        return jsonify({
+            'status': 'success',
+            'is_correct': is_correct,
+            'predicted_sign': predicted_sign,
+            'message': 'Sign recognized successfully'
+        })
+        
+    except Exception as e:
+        print(f"❌ Error processing sign: {str(e)}")
+        return jsonify({
+            'status': 'error',
+            'message': f'Error processing sign: {str(e)}'
+        }), 500
 
 @socketio.on('connect')
 def handle_connect():
@@ -322,4 +472,5 @@ if __name__ == '__main__':
         print("🤟 Supported Gestures:", sign_recognizer.get_supported_gestures())
         socketio.run(app, host='0.0.0.0', port=5000, debug=True)
     else:
-        print("❌ Failed to initialize reliable system. Exiting.")
+        print("❌ Failed to initialize reliable system. Please check the model path and try again.")
+        exit(1)  # Exit with error code
