@@ -258,6 +258,11 @@ def serve_animation(filename):
     """Serve animation files from the New directory."""
     return send_from_directory('New', filename)
 
+@app.route('/Gifs/<path:filename>')
+def serve_gifs(filename):
+    """Serve animation files from the Gifs directory."""
+    return send_from_directory('Gifs', filename)
+
 @app.route('/static/models/<path:filename>')
 def serve_models(filename):
     """Serve model files from the static/models directory."""
@@ -325,6 +330,13 @@ def dashboard():
     if not session.get('user_email'):
         return redirect(url_for('login'))
     return render_template('dashboard.html', show_chatbot=True)
+
+@app.route('/how-it-works')
+def how_it_works():
+    """How it Works page."""
+    if not session.get('user_email'):
+        return redirect(url_for('login'))
+    return render_template('how-it-works.html', show_chatbot=True)
 
 @app.route('/chat', methods=['POST'])
 def chat():

@@ -1,0 +1,28 @@
+<!-- Header -->
+<header class="header">
+    <div class="header-content">
+        <div class="logo">
+            <div class="logo-icon"><i class="fa-solid fa-hand"></i></div>
+            <span class="logo-text">UnSpoken</span>
+        </div>
+        <nav class="nav">
+            <a href="/app" class="nav-link {% if active_page == 'home' %}active{% endif %}">Home</a>
+            <a href="{{ url_for('learn') }}" class="nav-link {% if active_page == 'learn' %}active{% endif %}">
+                <i class="fas fa-graduation-cap"></i>
+                Learn
+            </a>
+            <a href="{{ url_for('dashboard') }}" class="nav-link {% if active_page == 'dashboard' %}active{% endif %}">
+                <i class="fas fa-chart-line"></i>
+                Dashboard
+            </a>
+            <a href="{{ url_for('how_it_works') }}" class="nav-link {% if active_page == 'how-it-works' %}active{% endif %}">
+                <i class="fas fa-info-circle"></i>
+                How it Works
+            </a>
+        </nav>
+        <div class="user-profile" style="display:flex; gap:.75rem; align-items:center;">
+            <button id="themeToggle" class="profile-icon" title="Toggle theme"><i id="themeToggleIcon" class="fa-solid fa-moon"></i></button>
+            <a href="/logout" class="profile-icon" title="Logout" style="text-decoration:none;"><i class="fa-solid fa-right-from-bracket"></i></a>
+        </div>
+    </div>
+</header>

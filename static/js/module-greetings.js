@@ -36,56 +36,56 @@ const elements = {
 const signsData = [
     {
         name: "Hello",
-        videoUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDdtY2JxZXVnOGQwcWRnNGZxNnJxZnBnZnRvNWJvMGZlcWFxdmJmZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKNthed4OG7T5Je/giphy.gif",
+        videoUrl: "/Gifs/Hello.mp4",
         description: "To sign 'Hello', raise your hand near your head, palm facing outward, and move it away from your face in an arc motion, as if you're waving.",
         mastered: false,
         supported: true
     },
     {
         name: "Thank You",
-        videoUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDdtY2JxZXVnOGQwcWRnNGZxNnJxZnBnZnRvNWJvMGZlcWFxdmJmZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKNthed4OG7T5Je/giphy.gif",
+        videoUrl: "/Gifs/Thankyou.mp4",
         description: "To sign 'Thank You', touch your lips with the fingertips of your dominant hand, then move your hand forward and down in the direction of the person you're thanking.",
         mastered: false,
         supported: true
     },
     {
         name: "Please",
-        videoUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDdtY2JxZXVnOGQwcWRnNGZxNnJxZnBnZnRvNWJvMGZlcWFxdmJmZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKNthed4OG7T5Je/giphy.gif",
+        videoUrl: "/Gifs/Please.mp4",
         description: "To sign 'Please', place your dominant hand flat on your chest with your palm facing your body, and move it in a circular motion clockwise.",
         mastered: false,
         supported: true
     },
     {
         name: "Sorry",
-        videoUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDdtY2JxZXVnOGQwcWRnNGZxNnJxZnBnZnRvNWJvMGZlcWFxdmJmZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKNthed4OG7T5Je/giphy.gif",
+        videoUrl: "/Gifs/Sorry.mp4",
         description: "To sign 'Sorry', make a fist with your dominant hand, place it against your chest, and move it in a circular motion.",
         mastered: false,
         supported: true
     },
     {
-        name: "Good Morning",
-        videoUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDdtY2JxZXVnOGQwcWRnNGZxNnJxZnBnZnRvNWJvMGZlcWFxdmJmZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKNthed4OG7T5Je/giphy.gif",
-        description: "To sign 'Good Morning', first sign 'good' by placing your dominant hand flat against your lips, then moving it down and away. Then sign 'morning' by drawing a half-circle from east to west with your dominant hand.",
+        name: "Good",
+        videoUrl: "/Gifs/Good.mp4",
+        description: "To sign 'Good', place your dominant hand flat against your lips, then move it down and away.",
         mastered: false,
-        supported: false
+        supported: true
     },
     {
-        name: "Good Night",
-        videoUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDdtY2JxZXVnOGQwcWRnNGZxNnJxZnBnZnRvNWJvMGZlcWFxdmJmZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKNthed4OG7T5Je/giphy.gif",
-        description: "To sign 'Good Night', first sign 'good', then for 'night', bring your dominant hand down over your face like closing your eyes.",
+        name: "Goodbye",
+        videoUrl: "/Gifs/Goodbye.mp4",
+        description: "To sign 'Goodbye', wave your hand side to side, palm facing outward.",
         mastered: false,
-        supported: false
+        supported: true
     },
     {
-        name: "Yes",
-        videoUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDdtY2JxZXVnOGQwcWRnNGZxNnJxZnBnZnRvNWJvMGZlcWFxdmJmZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKNthed4OG7T5Je/giphy.gif",
-        description: "To sign 'Yes', make a fist with your dominant hand, then bob it up and down at the wrist, like nodding your head.",
+        name: "Help",
+        videoUrl: "/Gifs/Help.mp4",
+        description: "To sign 'Help', make a fist with your dominant hand and place it on your non-dominant palm, then move both hands upward.",
         mastered: false,
-        supported: false
+        supported: true
     },
     {
         name: "No",
-        videoUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDdtY2JxZXVnOGQwcWRnNGZxNnJxZnBnZnRvNWJvMGZlcWFxdmJmZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKNthed4OG7T5Je/giphy.gif",
+        videoUrl: "/Gifs/No.mp4",
         description: "To sign 'No', extend your thumb, index, and middle fingers (like the letter 'E'), then close them together twice.",
         mastered: false,
         supported: true
@@ -198,7 +198,13 @@ function updateSignDisplay() {
     
     elements.signName.textContent = currentSign.name;
     elements.signDescription.textContent = currentSign.description;
-    elements.signVideo.src = currentSign.videoUrl;
+    
+    // Update video source
+    const videoElement = elements.signVideo;
+    const sourceElement = videoElement.querySelector('source');
+    sourceElement.src = currentSign.videoUrl;
+    videoElement.load(); // Reload the video with new source
+    videoElement.play(); // Start playing
     elements.signVideo.alt = `${currentSign.name} sign demonstration`;
     
     elements.masteryBadge.style.display = currentSign.mastered ? 'inline-flex' : 'none';

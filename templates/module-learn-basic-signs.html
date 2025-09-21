@@ -15,7 +15,8 @@
             padding: 0;
             overflow-x: hidden;
             font-family: 'Inter', sans-serif;
-            background: #f8fafc;
+            background: var(--bg, #f8fafc);
+            color: var(--text, #1a1a1a);
         }
         
         *, *::before, *::after {
@@ -48,10 +49,10 @@
             left: 0;
             right: 0;
             height: 4rem;
-            background: #ffffff;
+            background: var(--card, #ffffff);
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             z-index: 1000;
-            border-bottom: 1px solid rgba(0,0,0,0.06);
+            border-bottom: 1px solid var(--border, rgba(0,0,0,0.06));
         }
     
         .header-content {
@@ -70,11 +71,11 @@
             gap: 0.75rem;
             font-size: 1.25rem;
             font-weight: 600;
-            color: #1a1a1a;
+            color: var(--text, #1a1a1a);
         }
     
         .logo-icon {
-            color: #059669;
+            color: var(--primary, #059669);
         }
     
         .nav {
@@ -83,31 +84,31 @@
         }
     
         .nav-link {
-            color: #4b5563;
+            color: var(--text-secondary, #4b5563);
             text-decoration: none;
             font-weight: 500;
             transition: color 0.2s;
         }
     
         .nav-link:hover {
-            color: #059669;
+            color: var(--primary, #059669);
         }
     
         .nav-link.active {
-            color: #059669;
+            color: var(--primary, #059669);
         }
     
         .panel {
-            background: #ffffff;
+            background: var(--card, #ffffff);
             border-radius: 12px;
             padding: 1.75rem;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             height: fit-content;
-            border: 1px solid rgba(0,0,0,0.06);
+            border: 1px solid var(--border, rgba(0,0,0,0.06));
         }
     
         .panel h2 {
-            color: #1a1a1a;
+            color: var(--text, #1a1a1a);
             font-size: 1.25rem;
             margin-bottom: 1.25rem;
             font-weight: 600;
@@ -121,18 +122,18 @@
     
         .letter-btn, .word-btn {
             padding: 0.75rem;
-            border: 1px solid rgba(0,0,0,0.1);
+            border: 1px solid var(--border, rgba(0,0,0,0.1));
             border-radius: 8px;
-            background: #ffffff;
-            color: #1a1a1a;
+            background: var(--card, #ffffff);
+            color: var(--text, #1a1a1a);
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s;
         }
     
         .letter-btn:hover, .word-btn:hover {
-            background: #f3f4f6;
-            border-color: rgba(0,0,0,0.2);
+            background: var(--hover, #f3f4f6);
+            border-color: var(--border-hover, rgba(0,0,0,0.2));
             transform: translateY(-1px);
         }
     
@@ -143,7 +144,7 @@
         }
     
         .phone {
-            background: #ffffff;
+            background: var(--card, #ffffff);
             border-radius: 12px;
             padding: 2rem;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
@@ -151,14 +152,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 1px solid rgba(0,0,0,0.06);
+            border: 1px solid var(--border, rgba(0,0,0,0.06));
         }
     
         .phone-screen {
             width: 100%;
             height: 100%;
             position: relative;
-            background: #f8fafc;
+            background: var(--bg, #f8fafc);
             border-radius: 8px;
             overflow: hidden;
         }
@@ -198,8 +199,38 @@
             border-color: #059669;
         }
     
+        :root {
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1a1a1a;
+            --text-secondary: #4b5563;
+            --border: rgba(0,0,0,0.06);
+            --border-hover: rgba(0,0,0,0.2);
+            --primary: #059669;
+            --primary-hover: #047857;
+            --hover: #f3f4f6;
+            --hover-dark: #e5e7eb;
+            --slider-bg: #e5e7eb;
+            --slider-thumb: #059669;
+        }
+
+        :root[data-theme="dark"] {
+            --bg: #111827;
+            --card: #1f2937;
+            --text: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --border: rgba(255,255,255,0.1);
+            --border-hover: rgba(255,255,255,0.2);
+            --primary: #34d399;
+            --primary-hover: #059669;
+            --hover: #374151;
+            --hover-dark: #4b5563;
+            --slider-bg: #374151;
+            --slider-thumb: var(--primary);
+        }
+
         .slider-label {
-            color: #4b5563;
+            color: var(--text-secondary);
             font-size: 0.875rem;
             margin-bottom: 0.5rem;
             font-weight: 500;
@@ -208,7 +239,7 @@
         .slider {
             width: 100%;
             height: 4px;
-            background: #e5e7eb;
+            background: var(--slider-bg);
             border-radius: 2px;
             appearance: none;
             margin: 1rem 0;
@@ -218,7 +249,7 @@
             appearance: none;
             width: 16px;
             height: 16px;
-            background: #059669;
+            background: var(--slider-thumb);
             border-radius: 50%;
             cursor: pointer;
             transition: all 0.2s;
@@ -238,30 +269,30 @@
             padding: 0.75rem 1.25rem;
             border-radius: 8px;
             border: none;
-            background: #f3f4f6;
-            color: #1a1a1a;
+            background: var(--hover);
+            color: var(--text);
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s;
         }
     
         .btn:hover {
-            background: #e5e7eb;
+            background: var(--hover-dark);
             transform: translateY(-1px);
         }
     
         #btnTest {
-            background: #059669;
-            color: #ffffff;
+            background: var(--primary);
+            color: var(--card);
         }
     
         #btnTest:hover {
-            background: #047857;
+            background: var(--primary-hover);
         }
     
         .status {
             font-size: 0.875rem;
-            color: #4b5563;
+            color: var(--text-secondary);
         }
     
         /* Responsive design */
@@ -333,99 +364,6 @@
             .nav {
                 gap: 1.5rem;
             }
-        }
-    
-        :root[data-theme="dark"] {
-            --bg: #111827;
-            --card: #1f2937;
-            --text: #f3f4f6;
-            --text-secondary: #9ca3af;
-            --border: rgba(255,255,255,0.1);
-            --primary: #34d399;
-            --primary-dark: #059669;
-        }
-    
-        :root[data-theme="dark"] body {
-            background: var(--bg);
-            color: var(--text);
-        }
-    
-        :root[data-theme="dark"] .header {
-            background: var(--card);
-            border-bottom: 1px solid var(--border);
-        }
-    
-        :root[data-theme="dark"] .logo {
-            color: var(--text);
-        }
-    
-        :root[data-theme="dark"] .logo-icon {
-            color: var(--primary);
-        }
-    
-        :root[data-theme="dark"] .nav-link {
-            color: var(--text-secondary);
-        }
-    
-        :root[data-theme="dark"] .nav-link:hover,
-        :root[data-theme="dark"] .nav-link.active {
-            color: var(--primary);
-        }
-    
-        :root[data-theme="dark"] .panel,
-        :root[data-theme="dark"] .phone {
-            background: var(--card);
-            border-color: var(--border);
-        }
-    
-        :root[data-theme="dark"] .panel h2 {
-            color: var(--text);
-        }
-    
-        :root[data-theme="dark"] .letter-btn,
-        :root[data-theme="dark"] .word-btn {
-            background: var(--card);
-            border-color: var(--border);
-            color: var(--text);
-        }
-    
-        :root[data-theme="dark"] .letter-btn:hover,
-        :root[data-theme="dark"] .word-btn:hover {
-            background: #374151;
-            border-color: var(--text-secondary);
-        }
-    
-        :root[data-theme="dark"] .phone-screen {
-            background: var(--bg);
-        }
-    
-        :root[data-theme="dark"] .slider {
-            background: #374151;
-        }
-    
-        :root[data-theme="dark"] .slider::-webkit-slider-thumb {
-            background: var(--primary);
-        }
-    
-        :root[data-theme="dark"] .btn {
-            background: #374151;
-            color: var(--text);
-        }
-    
-        :root[data-theme="dark"] .btn:hover {
-            background: #4b5563;
-        }
-    
-        :root[data-theme="dark"] #btnTest {
-            background: var(--primary-dark);
-        }
-    
-        :root[data-theme="dark"] #btnTest:hover {
-            background: var(--primary);
-        }
-    
-        :root[data-theme="dark"] .status {
-            color: var(--text-secondary);
         }
     </style>
     <script type="importmap">

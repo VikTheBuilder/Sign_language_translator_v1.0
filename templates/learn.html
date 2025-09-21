@@ -9,27 +9,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="header-content">
-            <div class="logo">
-                <div class="logo-icon"><i class="fa-solid fa-hand"></i></div>
-                <span class="logo-text">UnSpoken</span>
-            </div>
-            <nav class="nav">
-                <a href="/app" class="nav-link">Home</a>
-                <a href="#" class="nav-link">About</a>
-                <a href="/learn" class="nav-link active">Learn</a>
-                <a href="/dashboard" class="nav-link">Dashboard</a>
-                <a href="#" class="nav-link">How It Works</a>
-                <a href="#" class="nav-link">Contact</a>
-            </nav>
-            <div class="user-profile" style="display:flex; gap:.75rem; align-items:center;">
-                <button id="themeToggle" class="profile-icon" title="Toggle theme"><i id="themeToggleIcon" class="fa-solid fa-moon"></i></button>
-                <a href="/logout" class="profile-icon" title="Logout" style="text-decoration:none;"><i class="fa-solid fa-right-from-bracket"></i></a>
-            </div>
-        </div>
-    </header>
+    {% with active_page = 'learn' %}
+    {% include 'partials/header.html' %}
+    {% endwith %}
 
     <!-- Hero Section -->
     <section class="hero">
@@ -91,14 +73,14 @@
                         <div class="progress-bar">
                             <div class="progress-fill" style="width: 80%;"></div>
                         </div>
-                        <span>8/10 Completed</span>
+                        <span>8/8 Completed</span>
                     </div>
                     <a href="{{ url_for('module_greetings') }}" class="btn btn-primary module-btn">Continue</a>
                 </div>
                 <div class="module-card">
                     <div class="module-icon"><i class="fa-solid fa-users"></i></div>
-                    <h3>Family & Relationships</h3>
-                    <p>Signs for family members and relationships</p>
+                    <h3>More Basic Words</h3>
+                    <p>Signs for more basic words</p>
                     <div class="module-progress">
                         <div class="progress-bar">
                             <div class="progress-fill" style="width: 40%;"></div>
@@ -148,18 +130,7 @@
                     </div>
                     <a href="{{ url_for('learn_basic_signs') }}" class="btn btn-primary module-btn">Start</a>
                 </div>
-                <div class="module-card">
-                    <div class="module-icon"><i class="fa-solid fa-book-open"></i></div>
-                    <h3>Learn Words</h3>
-                    <p>Learn common words and phrases with our 3D avatar instructor.</p>
-                    <div class="module-progress">
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 0%;"></div>
-                        </div>
-                        <span>0/10 Completed</span>
-                    </div>
-                    <a href="{{ url_for('learn_words') }}" class="btn btn-primary module-btn">Start</a>
-                </div>
+                
             </div>
         </div>
 

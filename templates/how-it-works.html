@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UnSpoken - How it Works</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Page-specific styles */
+        .how-it-works-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: var(--card);
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-content {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--text);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            padding: 1.5rem;
+            background: var(--card-soft);
+            border-radius: 0.75rem;
+            border: 1px solid var(--border);
+        }
+
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .feature-description {
+            color: var(--text);
+            line-height: 1.5;
+        }
+
+        .steps-list {
+            list-style: none;
+            padding: 0;
+            counter-reset: step-counter;
+        }
+
+        .step-item {
+            margin-bottom: 2rem;
+            padding-left: 3rem;
+            position: relative;
+        }
+
+        .step-item::before {
+            content: counter(step-counter);
+            counter-increment: step-counter;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2rem;
+            height: 2rem;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .step-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .step-description {
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .tip-box {
+            background: var(--card-soft);
+            border-left: 4px solid var(--primary);
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0.5rem;
+        }
+
+        .tip-title {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    {% with active_page = 'how-it-works' %}
+    {% include 'partials/header.html' %}
+    {% endwith %}
+
+    <main class="main-content" style="padding-top: 5rem;">
+        <div class="how-it-works-container">
+            <!-- Introduction Section -->
+            <section class="section">
+                <h1 class="section-title">
+                    <i class="fas fa-info-circle"></i>
+                    Welcome to UnSpoken
+                </h1>
+                <div class="section-content">
+                    <p>UnSpoken is your interactive platform for learning sign language through real-time practice and feedback. Our innovative system combines video demonstrations with webcam recognition to help you master sign language effectively.</p>
+                </div>
+            </section>
+
+            <!-- Key Features Section -->
+            <section class="section">
+                <h2 class="section-title">
+                    <i class="fas fa-star"></i>
+                    Key Features
+                </h2>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h3 class="feature-title">
+                            <i class="fas fa-video"></i>
+                            Video Demonstrations
+                        </h3>
+                        <p class="feature-description">Clear, high-quality video demonstrations for each sign, allowing you to observe and learn the correct hand movements and gestures.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3 class="feature-title">
+                            <i class="fas fa-camera"></i>
+                            Real-time Practice
+                        </h3>
+                        <p class="feature-description">Practice signs using your webcam with instant feedback on your performance, helping you perfect your technique.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3 class="feature-title">
+                            <i class="fas fa-chart-line"></i>
+                            Progress Tracking
+                        </h3>
+                        <p class="feature-description">Track your learning progress with mastery badges and completion statistics for each module.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- How to Use Section -->
+            <section class="section">
+                <h2 class="section-title">
+                    <i class="fas fa-book-reader"></i>
+                    How to Use UnSpoken
+                </h2>
+                <ol class="steps-list">
+                    <li class="step-item">
+                        <h3 class="step-title">Choose a Learning Module</h3>
+                        <p class="step-description">Start with the Greetings & Basics module to learn essential signs, then progress through other modules like Basic Signs & Numbers and more.</p>
+                    </li>
+                    <li class="step-item">
+                        <h3 class="step-title">Watch the Demonstration</h3>
+                        <p class="step-description">Each sign comes with a clear video demonstration. Watch carefully and pay attention to hand positions, movements, and facial expressions if applicable.</p>
+                    </li>
+                    <li class="step-item">
+                        <h3 class="step-title">Practice with Webcam</h3>
+                        <p class="step-description">Click "Start Practice" to activate your webcam. Position yourself clearly in the frame and perform the sign. The system will provide real-time feedback on your performance.</p>
+                    </li>
+                    <li class="step-item">
+                        <h3 class="step-title">Track Your Progress</h3>
+                        <p class="step-description">Signs are marked as mastered when you perform them correctly. Complete all signs in a module to unlock achievements and progress to more advanced content.</p>
+                    </li>
+                </ol>
+
+                <div class="tip-box">
+                    <h4 class="tip-title">Pro Tips</h4>
+                    <ul>
+                        <li>Ensure good lighting when using the webcam</li>
+                        <li>Practice each sign multiple times to build muscle memory</li>
+                        <li>Use the description provided with each sign for proper technique</li>
+                        <li>Take advantage of the dark mode option for comfortable learning in different lighting conditions</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Practice Guidelines Section -->
+            <section class="section">
+                <h2 class="section-title">
+                    <i class="fas fa-graduation-cap"></i>
+                    Practice Guidelines
+                </h2>
+                <div class="section-content">
+                    <p>For the best learning experience:</p>
+                    <ul>
+                        <li>Practice in a well-lit environment with a clear background</li>
+                        <li>Position your webcam at face/upper body level</li>
+                        <li>Ensure your hands are clearly visible in the frame</li>
+                        <li>Take regular breaks to avoid fatigue</li>
+                        <li>Review previously learned signs regularly</li>
+                        <li>Use the practice mode frequently to reinforce learning</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+</body>
+</html>

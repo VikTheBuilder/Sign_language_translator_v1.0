@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UnSpoken - Family & Relationships</title>
+    <title>UnSpoken - Basic Signs & Numbers</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -234,37 +234,55 @@
             align-items: center;
             gap: 0.5rem;
         }
+        
+        /* Status badge styles */
+        .sign-status {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-top: 1rem;
+        }
+        
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .status-badge.supported {
+            background: #ecfdf5;
+            color: #059669;
+        }
+        
+        .status-badge.unsupported {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+        
+        :root[data-theme="dark"] .status-badge.supported {
+            background: rgba(5, 150, 105, 0.2);
+        }
+        
+        :root[data-theme="dark"] .status-badge.unsupported {
+            background: rgba(220, 38, 38, 0.2);
+        }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="header-content">
-            <div class="logo">
-                <div class="logo-icon"><i class="fa-solid fa-hand"></i></div>
-                <span class="logo-text">UnSpoken</span>
-            </div>
-            <nav class="nav">
-                <a href="/app" class="nav-link">Home</a>
-                <a href="#" class="nav-link">About</a>
-                <a href="/learn" class="nav-link active">Learn</a>
-                <a href="/dashboard" class="nav-link">Dashboard</a>
-                <a href="#" class="nav-link">How It Works</a>
-                <a href="#" class="nav-link">Contact</a>
-            </nav>
-            <div class="user-profile" style="display:flex; gap:.75rem; align-items:center;">
-                <button id="themeToggle" class="profile-icon" title="Toggle theme"><i id="themeToggleIcon" class="fa-solid fa-moon"></i></button>
-                <a href="/logout" class="profile-icon" title="Logout" style="text-decoration:none;"><i class="fa-solid fa-right-from-bracket"></i></a>
-            </div>
-        </div>
-    </header>
+    {% with active_page = 'learn' %}
+    {% include 'partials/header.html' %}
+    {% endwith %}
 
     <!-- Main Content -->
     <main class="main-content" style="padding-top: 5rem;">
         <div class="module-container">
             <!-- Module Header -->
             <div class="module-header">
-                <h1 class="module-title">Family & Relationships</h1>
+                <h1 class="module-title">Basic Signs & Numbers</h1>
                 <div class="module-progress-container">
                     <span class="module-progress-text"><span id="completedSigns">0</span>/<span id="totalSigns">10</span> Signs</span>
                     <div class="progress-bar" style="flex-grow: 1;">
@@ -276,14 +294,20 @@
             <!-- Sign Display Area -->
             <div class="sign-container">
                 <div class="sign-video">
-                    <img id="signVideo" src="" alt="Sign demonstration">
+                    <video id="signVideo" autoplay loop muted playsinline>
+                        <source src="" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
                 </div>
                 <div class="sign-info">
                     <h2 id="signName" class="sign-name">Loading...</h2>
                     <p id="signDescription" class="sign-description">Loading sign information...</p>
-                    <div id="masteryBadge" class="mastery-badge" style="display: none;">
-                        <i class="fa-solid fa-check-circle"></i>
-                        <span>Mastered</span>
+                    <div class="sign-status">
+                        <div id="supportedStatus" class="status-badge">Recognition Status: Loading...</div>
+                        <div id="masteryBadge" class="mastery-badge" style="display: none;">
+                            <i class="fa-solid fa-check-circle"></i>
+                            <span>Mastered</span>
+                        </div>
                     </div>
                 </div>
             </div>

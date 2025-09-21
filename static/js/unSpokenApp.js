@@ -5,6 +5,7 @@ const socket = io();
 const videoElement = document.getElementById('videoElement');
 const videoOverlay = document.getElementById('videoOverlay');
 const translationText = document.getElementById('translationText');
+const signHistory = document.getElementById('signHistory');
 const startBtn = document.getElementById('startBtn');
 const statusMessage = document.getElementById('statusMessage');
 
@@ -18,8 +19,6 @@ const copyBtn = document.getElementById('copyBtn');
 
 // State variables
 let isCameraActive = false;
-let isPaused = false;
-let isRecording = false;
 let currentGesture = null;
 let currentTranslation = null;
 let lastGestureTime = 0;
@@ -74,20 +73,6 @@ function setupEventListeners() {
         } else {
             stopCamera();
         }
-    });
-    
-    // Video control buttons
-    rewindBtn.addEventListener('click', function() {
-        console.log('⏪ Rewind clicked');
-        showStatus('Rewinding...', 'info');
-    });
-    
-    pauseBtn.addEventListener('click', function() {
-        togglePause();
-    });
-    
-    recordBtn.addEventListener('click', function() {
-        toggleRecording();
     });
     
     // Text control buttons

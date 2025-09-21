@@ -35,64 +35,53 @@ const elements = {
 // Module data - signs for the Family & Relationships module
 const signsData = [
     {
-        name: "Mother",
-        videoUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDdtY2JxZXVnOGQwcWRnNGZxNnJxZnBnZnRvNWJvMGZlcWFxdmJmZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKNthed4OG7T5Je/giphy.gif",
-        description: "To sign 'Mother', extend your thumb and place your hand with fingers spread, thumb touching your chin.",
-        mastered: false
+        name: "Angry",
+        videoUrl: "/Gifs/Angry.mp4",
+        description: "To sign 'Angry', place your hand in front of your face, fingers spread and pointing upward, then bring them together into a fist while furrowing your brows.",
+        mastered: false,
+        supported: true
     },
     {
-        name: "Father",
-        videoUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDdtY2JxZXVnOGQwcWRnNGZxNnJxZnBnZnRvNWJvMGZlcWFxdmJmZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKNthed4OG7T5Je/giphy.gif",
-        description: "To sign 'Father', extend your thumb and place your hand with fingers spread, thumb touching your forehead.",
-        mastered: false
+        name: "Food",
+        videoUrl: "/Gifs/Food.mp4",
+        description: "To sign 'Food', bring your dominant hand's fingers together at your mouth, as if bringing food to your mouth.",
+        mastered: false,
+        supported: true
     },
     {
-        name: "Sister",
-        videoUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDdtY2JxZXVnOGQwcWRnNGZxNnJxZnBnZnRvNWJvMGZlcWFxdmJmZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKNthed4OG7T5Je/giphy.gif",
-        description: "To sign 'Sister', make the sign for 'girl' (thumb on chin, then extend pinky) and then sign for 'same' by linking your index fingers together.",
-        mastered: false
+        name: "Happy",
+        videoUrl: "/Gifs/Happy.mp4",
+        description: "To sign 'Happy', place your open hand on your chest and make a circular motion.",
+        mastered: false,
+        supported: true
     },
     {
-        name: "Brother",
-        videoUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDdtY2JxZXVnOGQwcWRnNGZxNnJxZnBnZnRvNWJvMGZlcWFxdmJmZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKNthed4OG7T5Je/giphy.gif",
-        description: "To sign 'Brother', make the sign for 'boy' (thumb on forehead, then extend pinky) and then sign for 'same' by linking your index fingers together.",
-        mastered: false
+        name: "One",
+        videoUrl: "/Gifs/One.mp4",
+        description: "To sign 'One', point your index finger upward while keeping other fingers closed.",
+        mastered: false,
+        supported: true
     },
     {
-        name: "Grandmother",
-        videoUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDdtY2JxZXVnOGQwcWRnNGZxNnJxZnBnZnRvNWJvMGZlcWFxdmJmZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKNthed4OG7T5Je/giphy.gif",
-        description: "To sign 'Grandmother', first sign 'mother' (thumb touching chin), then move your hand away from your chin and sign 'parent' by making a small arc motion.",
-        mastered: false
+        name: "Stop",
+        videoUrl: "/Gifs/Stop.mp4",
+        description: "To sign 'Stop', hold your dominant hand up with palm facing forward, like a stop gesture.",
+        mastered: false,
+        supported: true
     },
     {
-        name: "Grandfather",
-        videoUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDdtY2JxZXVnOGQwcWRnNGZxNnJxZnBnZnRvNWJvMGZlcWFxdmJmZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKNthed4OG7T5Je/giphy.gif",
-        description: "To sign 'Grandfather', first sign 'father' (thumb touching forehead), then move your hand away from your forehead and sign 'parent' by making a small arc motion.",
-        mastered: false
+        name: "Two",
+        videoUrl: "/Gifs/Two.mp4",
+        description: "To sign 'Two', hold up your index and middle fingers while keeping other fingers closed.",
+        mastered: false,
+        supported: true
     },
     {
-        name: "Uncle",
-        videoUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDdtY2JxZXVnOGQwcWRnNGZxNnJxZnBnZnRvNWJvMGZlcWFxdmJmZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKNthed4OG7T5Je/giphy.gif",
-        description: "To sign 'Uncle', make the letter 'U' handshape (extend index and middle finger together) and move it from your forehead outward in a small arc.",
-        mastered: false
-    },
-    {
-        name: "Aunt",
-        videoUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDdtY2JxZXVnOGQwcWRnNGZxNnJxZnBnZnRvNWJvMGZlcWFxdmJmZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKNthed4OG7T5Je/giphy.gif",
-        description: "To sign 'Aunt', make the letter 'A' handshape (closed fist with thumb alongside) and move it from your cheek outward in a small arc.",
-        mastered: false
-    },
-    {
-        name: "Cousin",
-        videoUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDdtY2JxZXVnOGQwcWRnNGZxNnJxZnBnZnRvNWJvMGZlcWFxdmJmZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKNthed4OG7T5Je/giphy.gif",
-        description: "To sign 'Cousin', make the letter 'C' handshape and twist it at the wrist twice.",
-        mastered: false
-    },
-    {
-        name: "Family",
-        videoUrl: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDdtY2JxZXVnOGQwcWRnNGZxNnJxZnBnZnRvNWJvMGZlcWFxdmJmZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKNthed4OG7T5Je/giphy.gif",
-        description: "To sign 'Family', extend both hands with fingers spread, palms facing inward, and make two small circles moving outward from your body.",
-        mastered: false
+        name: "You",
+        videoUrl: "/Gifs/You.mp4",
+        description: "To sign 'You', point your index finger directly at the person you're referring to.",
+        mastered: false,
+        supported: true
     }
 ];
 

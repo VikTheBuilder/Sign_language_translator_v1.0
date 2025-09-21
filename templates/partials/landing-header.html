@@ -1,0 +1,18 @@
+<!-- Header -->
+<header class="header">
+    <div class="header-content">
+        <div class="logo">
+            <div class="logo-icon"><i class="fa-solid fa-hand"></i></div>
+            <span class="logo-text">UnSpoken</span>
+        </div>
+        <nav class="nav">
+            <a href="#features" class="nav-link">Features</a>
+            <a href="#how" class="nav-link">How It Works</a>
+            <a href="#community" class="nav-link">Community</a>
+        </nav>
+        <div class="user-profile" style="display:flex; gap:.75rem; align-items:center;">
+            <button id="themeToggle" class="profile-icon" title="Toggle theme"><i id="themeToggleIcon" class="fa-solid fa-moon"></i></button>
+            <a class="btn btn-secondary" href="{{ url_for('login') }}">Log in</a>
+        </div>
+    </div>
+</header>
